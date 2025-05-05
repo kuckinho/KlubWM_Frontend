@@ -1,0 +1,175 @@
+<template>
+  <h2>{{ title }}</h2>
+
+  <!-- Suchfeld und Filteroptionen in einer Reihe -->
+  <div class="filters">
+    <input
+      type="text"
+      v-model="searchQuery"
+      placeholder="Verein suchen..."
+      @input="filterClubs"
+    />
+
+    <label>
+      Herkunftsland
+      <select v-model="filters.country" @change="filterClubs">
+        <option value="">Alle</option>
+        <option v-for="option in getUniqueValues('country')" :key="option" :value="option">
+          {{ option }}
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Heimatliga
+      <select v-model="filters.league" @change="filterClubs">
+        <option value="">Alle</option>
+        <option v-for="option in getUniqueValues('league')" :key="option" :value="option">
+          {{ option }}
+        </option>
+      </select>
+    </label>
+  </div>
+
+  <table>
+    <tr>
+      <th>Vereinsname</th>
+      <th>Herkunftsland</th>
+      <th>Herkunftsort</th>
+      <th>Heimatliga</th>
+      <th>ø-Alter</th>
+      <th>Marktwert</th>
+    </tr>
+    <tr v-for="club in filteredClubs" :key="club.id">
+      <td>{{ club.name }}</td>
+      <td>{{ club.country }}</td>
+      <td>{{ club.location }}</td>
+      <td>{{ club.league }}</td>
+      <td>{{ club.averageAge }}</td>
+      <td>{{ club.marketValue }}</td>
+    </tr>
+  </table>
+</template>
+
+<script setup>
+// Importiere die benötigten Vue-Funktionen
+import { ref, computed, onMounted } from 'vue';
+
+// Definiere die erwarteten Props ohne TypeScript
+defineProps(['title']);
+
+// Erstelle ein Referenz-Array für die Clubs
+const clubs = ref([]);
+const searchQuery = ref('');
+const filters = ref({
+  country: '',
+  league: ''
+});
+let currentId = 1;
+
+// Funktion zur Initialisierung der Clubs
+function initClubs() {
+  const initialClubs = [
+    { name: 'Manchester City', country: 'England', location: 'Manchester', league: 'Premier League', averageAge: 26.8, marketValue: '1,31 Mrd. €' },
+    { name: 'Real Madrid', country: 'Spanien', location: 'Madrid', league: 'La Liga', averageAge: 27.1, marketValue: '1,27 Mrd. €' },
+    { name: 'FC Paris Saint-Germain', country: 'Frankreich', location: 'Paris', league: 'Ligue 1', averageAge: 23.8, marketValue: '923,50 Mio. €' },
+    { name: 'FC Chelsea', country: 'England', location: 'London', league: 'Premier League', averageAge: 23.7, marketValue: '922,00 Mio. €' },
+    { name: 'FC Bayern München', country: 'Deutschland', location: 'München', league: 'Bundesliga', averageAge: 27.8, marketValue: '859,00 Mio. €' },
+    { name: 'Inter Mailand', country: 'Italien', location: 'Mailand', league: 'Serie A', averageAge: 29.5, marketValue: '663,80 Mio. €' },
+    { name: 'Juventus Turin', country: 'Italien', location: 'Turin', league: 'Serie A', averageAge: 25.5, marketValue: '623,20 Mio. €' },
+    { name: 'Atlético Madrid', country: 'Spanien', location: 'Madrid', league: 'La Liga', averageAge: 29.4, marketValue: '515,80 Mio. €' },
+    { name: 'Borussia Dortmund', country: 'Deutschland', location: 'Dortmund', league: 'Bundesliga', averageAge: 25.3, marketValue: '436,40 Mio. €' },
+    { name: 'Benfica Lissabon', country: 'Portugal', location: 'Lissabon', league: 'Primeira Liga', averageAge: 25.4, marketValue: '362,50 Mio. €' },
+    { name: 'FC Porto', country: 'Portugal', location: 'Porto', league: 'Primeira Liga', averageAge: 25.3, marketValue: '312,70 Mio. €' },
+    { name: 'SE Palmeiras São Paulo', country: 'Brasilien', location: 'São Paulo', league: 'Brasileirão', averageAge: 25.9, marketValue: '238,75 Mio. €' },
+    { name: 'Flamengo Rio de Janeiro', country: 'Brasilien', location: 'Rio de Janeiro', league: 'Brasileirão', averageAge: 27.1, marketValue: '219,15 Mio. €' },
+    { name: 'Al-Hilal SFC', country: 'Saudi-Arabien', location: 'Riad', league: 'Saudi Professional League', averageAge: 28.2, marketValue: '180,00 Mio. €' },
+    { name: 'FC Red Bull Salzburg', country: 'Österreich', location: 'Salzburg', league: 'Österreichische Bundesliga', averageAge: 22.9, marketValue: '149,30 Mio. €' },
+    { name: 'Botafogo Rio de Janeiro', country: 'Brasilien', location: 'Rio de Janeiro', league: 'Brasileirão', averageAge: 26.0, marketValue: '135,95 Mio. €' },
+    { name: 'CA River Plate', country: 'Argentinien', location: 'Buenos Aires', league: 'Argentinische Primera División', averageAge: 29.6, marketValue: '103,65 Mio. €' },
+    { name: 'CA Boca Juniors', country: 'Argentinien', location: 'Buenos Aires', league: 'Argentinische Primera División', averageAge: 28.1, marketValue: '83,63 Mio. €' },
+    { name: 'Fluminense Rio de Janeiro', country: 'Brasilien', location: 'Rio de Janeiro', league: 'Brasileirão', averageAge: 28.3, marketValue: '73,60 Mio. €' },
+    { name: 'CF Monterrey', country: 'Mexiko', location: 'Monterrey', league: 'Liga MX', averageAge: 28.5, marketValue: '73,20 Mio. €' },
+    { name: 'Inter Miami CF', country: 'USA', location: 'Miami', league: 'Major League Soccer', averageAge: 26.0, marketValue: '69,15 Mio. €' },
+    { name: 'Seattle Sounders FC', country: 'USA', location: 'Seattle', league: 'Major League Soccer', averageAge: 26.9, marketValue: '54,35 Mio. €' },
+    { name: 'CF Pachuca', country: 'Mexiko', location: 'Pachuca', league: 'Liga MX', averageAge: 25.8, marketValue: '51,75 Mio. €' },
+    { name: 'Al-Ain FC', country: 'Vereinigte Arabische Emirate', location: 'Al-Ain', league: 'UAE Pro League', averageAge: 25.8, marketValue: '44,84 Mio. €' },
+    { name: 'Mamelodi Sundowns FC', country: 'Südafrika', location: 'Mamelodi', league: 'DSTV Premiership', averageAge: 27.7, marketValue: '35,48 Mio. €' },
+    { name: 'Al Ahly FC', country: 'Ägypten', location: 'Kairo', league: 'Egyptian Premier League', averageAge: 27.4, marketValue: '33,90 Mio. €' },
+    { name: 'Urawa Red Diamonds', country: 'Japan', location: 'Saitama', league: 'J1 League', averageAge: 27.3, marketValue: '20,53 Mio. €' },
+    { name: 'Esperance Tunis', country: 'Tunesien', location: 'Tunis', league: 'Ligue Professionnelle 1', averageAge: 25.6, marketValue: '19,85 Mio. €' },
+    { name: 'Wydad Casablanca', country: 'Marokko', location: 'Casablanca', league: 'Botola Pro', averageAge: 26.1, marketValue: '16,45 Mio. €' },
+    { name: 'Ulsan HD FC', country: 'Südkorea', location: 'Ulsan', league: 'K League 1', averageAge: 27.2, marketValue: '16,30 Mio. €' },
+    { name: 'Auckland City FC', country: 'Neuseeland', location: 'Auckland', league: 'New Zealand Football Championship', averageAge: 26.7, marketValue: '5,32 Mio. €' },
+  ];
+
+  initialClubs.forEach(club => {
+    clubs.value.push({ ...club, id: currentId++ });
+  });
+}
+
+// Berechne die gefilterten Clubs
+const filteredClubs = computed(() => {
+  return clubs.value.filter(club => {
+    // Filter nach Suchbegriff für den Vereinsnamen
+    const matchesSearchQuery = club.name.toLowerCase().includes(searchQuery.value.toLowerCase());
+
+    // Filter nach den ausgewählten Spaltenwerten
+    const matchesFilters = ['country', 'league'].every(column => {
+      return filters.value[column] === '' || club[column] === filters.value[column];
+    });
+
+    return matchesSearchQuery && matchesFilters;
+  });
+});
+
+// Hol einzigartige Werte für eine Spalte
+function getUniqueValues(column) {
+  const values = clubs.value.map(club => club[column]);
+  return [...new Set(values)];
+}
+
+// Initialisiere die Clubs, wenn die Komponente gemountet ist
+onMounted(() => {
+  initClubs();
+});
+</script>
+
+<style scoped>
+h2 {
+  /* Überschrift */
+  text-align: center;
+  color: #32CD32;
+  font-size: 34px;
+  margin-bottom: 20px;
+}
+
+table {
+  margin: 8px 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #cfc;
+  padding: 8px;
+  white-space: nowrap;
+}
+
+th {
+  text-align: center;
+  font-weight: bold;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+input, select {
+  margin-right: 10px;
+  padding: 5px;
+}
+</style>
