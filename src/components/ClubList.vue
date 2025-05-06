@@ -14,7 +14,11 @@
       Herkunftsland
       <select v-model="filters.country" @change="filterClubs">
         <option value="">Alle</option>
-        <option v-for="option in getUniqueValues('country')" :key="option" :value="option">
+        <option
+          v-for="option in getUniqueValues('country')"
+          :key="option"
+          :value="option"
+        >
           {{ option }}
         </option>
       </select>
@@ -24,7 +28,11 @@
       Heimatliga
       <select v-model="filters.league" @change="filterClubs">
         <option value="">Alle</option>
-        <option v-for="option in getUniqueValues('league')" :key="option" :value="option">
+        <option
+          v-for="option in getUniqueValues('league')"
+          :key="option"
+          :value="option"
+        >
           {{ option }}
         </option>
       </select>
@@ -52,13 +60,11 @@
 </template>
 
 <script setup>
-// Importiere die benötigten Vue-Funktionen
 import { ref, computed, onMounted } from 'vue';
 
-// Definiere die erwarteten Props ohne TypeScript
+// Props für Titel
 defineProps(['title']);
 
-// Erstelle ein Referenz-Array für die Clubs
 const clubs = ref([]);
 const searchQuery = ref('');
 const filters = ref({
@@ -67,7 +73,6 @@ const filters = ref({
 });
 let currentId = 1;
 
-// Funktion zur Initialisierung der Clubs
 function initClubs() {
   const initialClubs = [
     { name: 'Manchester City', country: 'England', location: 'Manchester', league: 'Premier League', averageAge: 26.8, marketValue: '1,31 Mrd. €' },
@@ -108,13 +113,9 @@ function initClubs() {
   });
 }
 
-// Berechne die gefilterten Clubs
 const filteredClubs = computed(() => {
   return clubs.value.filter(club => {
-    // Filter nach Suchbegriff für den Vereinsnamen
     const matchesSearchQuery = club.name.toLowerCase().includes(searchQuery.value.toLowerCase());
-
-    // Filter nach den ausgewählten Spaltenwerten
     const matchesFilters = ['country', 'league'].every(column => {
       return filters.value[column] === '' || club[column] === filters.value[column];
     });
@@ -123,13 +124,11 @@ const filteredClubs = computed(() => {
   });
 });
 
-// Hol einzigartige Werte für eine Spalte
 function getUniqueValues(column) {
   const values = clubs.value.map(club => club[column]);
   return [...new Set(values)];
 }
 
-// Initialisiere die Clubs, wenn die Komponente gemountet ist
 onMounted(() => {
   initClubs();
 });
@@ -144,22 +143,38 @@ h2 {
   margin-bottom: 20px;
 }
 
+.table-container {
+  width: 100%;
+  display: block;
+}
+
 table {
   margin: 8px 0;
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed; /* Set fixed layout for consistent width */
 }
 
 th, td {
   border: 1px solid #cfc;
   padding: 8px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Handle overflow with ellipsis */
 }
 
 th {
   text-align: center;
   font-weight: bold;
 }
+
+/* Define specific widths for each column */
+th:nth-child(1), td:nth-child(1) { width: 20%; }
+th:nth-child(2), td:nth-child(2) { width: 20%; }
+th:nth-child(3), td:nth-child(3) { width: 15%; }
+th:nth-child(4), td:nth-child(4) { width: 25%; }
+th:nth-child(5), td:nth-child(5) { width: 10%; }
+th:nth-child(6), td:nth-child(6) { width: 10%; }
 
 .filters {
   display: flex;

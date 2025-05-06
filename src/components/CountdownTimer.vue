@@ -1,6 +1,7 @@
 <template>
+  <h2>{{ title }}</h2>
+  <div class="container">
   <div class="countdown-wrapper">
-    <h2>{{ title }}</h2>
     <table>
       <thead>
       <tr>
@@ -19,6 +20,7 @@
       </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </template>
 
@@ -68,6 +70,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center; /* Zentriert Inhalte horizontal */
+  align-items: center; /* Zentriert Inhalte vertikal */
+  height: 50vh;
+}
+
 .countdown-wrapper {
   text-align: center;
   font-family: Arial, sans-serif;
