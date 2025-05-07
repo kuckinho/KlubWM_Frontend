@@ -1,6 +1,8 @@
+
 <template>
   <h2>{{ title }}</h2>
 
+  <!-- Initialisierung Suchfeld und Filteroptionen in einer Reihe -->
   <div class="filters">
     <input
       type="text"
@@ -9,6 +11,7 @@
       @input="filterStadiums"
     />
 
+    <!-- Filteroption Stadt -->
     <label>
       Stadt
       <select v-model="filters.city" @change="filterStadiums">
@@ -23,6 +26,7 @@
       </select>
     </label>
 
+    <!-- Filteroption Phase -->
     <label>
       Phase
       <select v-model="filters.phase" @change="filterStadiums">
@@ -33,6 +37,7 @@
     </label>
   </div>
 
+  <!-- Initialisierung Tabellenstruktur -->
   <table>
     <tr>
       <th>Stadionname</th>
@@ -55,12 +60,14 @@
   </table>
 </template>
 
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
 // Props für Titel
 defineProps(['title'])
 
+// Initialisierung Suche und Filter
 const stadiums = ref([])
 const searchQuery = ref('')
 const filters = ref({
@@ -69,6 +76,7 @@ const filters = ref({
   phase: ''
 })
 
+// Initialisierung Stadien mit Daten
 function initStadiums() {
   const initialStadiums = [
     {
@@ -248,7 +256,7 @@ function initStadiums() {
     }
   ]
 
-  // Combine games from both phases into one array with the desired format
+  // Kompilieren und Formatieren der Spiele von Gruppenphase und K.O.-Phase
   initialStadiums.forEach((stadium) => {
     const allGames = []
     stadium.groupPhaseGames.forEach((game) => {
@@ -264,6 +272,7 @@ function initStadiums() {
   })
 }
 
+// Suche Stadien basierend auf Suchbegriff und Filtern
 const filteredStadiums = computed(() => {
   return stadiums.value.map((stadium) => {
     const matchesSearchQuery = stadium.name.toLowerCase().includes(searchQuery.value.toLowerCase())
@@ -271,6 +280,7 @@ const filteredStadiums = computed(() => {
       return filters.value[column] === '' || stadium[column] === filters.value[column]
     })
 
+    // Filtern gemäß ausgewählter Phase
     stadium.filteredGames = stadium.games.filter((game) => {
       if (filters.value.phase === 'group') {
         return game.startsWith('Gruppenphase:')
@@ -280,79 +290,79 @@ const filteredStadiums = computed(() => {
       return true
     })
 
+    // Rückgabe der Stadien, die den Kriterien entsprechen
     return matchesSearchQuery && matchesFilters && stadium.filteredGames.length > 0
       ? stadium
       : null
   }).filter(Boolean)
 })
 
+// Gibt sichtbare Werte für Spalte Stadion zurück
 function getUniqueValues(column) {
   const values = stadiums.value.map((stadium) => stadium[column])
   return [...new Set(values)]
 }
 
+// Stadien beim Laden der Komponente aufrufen
 onMounted(() => {
   initStadiums()
 })
 
 </script>
 
+
 <style scoped>
+/* Formatierung Titel */
 h2 {
   text-align: center;
   color: #32CD32;
   font-size: 34px;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-.table-container {
-  width: 100%;
-  display: block;
-}
-
+/* Formatierung Tabellen-Struktur */
 table {
   margin: 8px 0;
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Ensures stable width */
+  table-layout: fixed;
 }
 
+/* Formatierung Tabellen-Kopfzeile */
 th {
   border: 1px solid #cfc;
   padding: 8px;
   white-space: nowrap;
   vertical-align: top;
   text-align: center;
-  font-weight: bold; /* Fett formatieren */
+  font-weight: bold;
 }
 
+/* Formatierung Tabellen-Zellen */
 td {
   border: 1px solid #cfc;
   padding: 8px;
   white-space: nowrap;
   vertical-align: top;
-  text-align: left; /* Links bündig */
+  text-align: left;
 }
 
+/* Formatierung Tabellen-Spalten */
 th:nth-child(1), td:nth-child(1) { width: 20%; }
 th:nth-child(2), td:nth-child(2) { width: 15%; }
 th:nth-child(3), td:nth-child(3) { width: 10%; }
 th:nth-child(4), td:nth-child(4) { width: 10%; }
 th:nth-child(5), td:nth-child(5) { width: 45%; }
 
-.filters {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
+/* Formatierung Filter und Suchfunktion */
 input,
 select {
   margin-right: 10px;
   padding: 5px;
 }
 
+/* Formatierung Werte in Zellen */
 ul {
   padding: 0;
   list-style-type: none;

@@ -9,14 +9,15 @@
   </div>
 </template>
 
-<script setup>
 
+<script setup>
 // Props für Titel
 defineProps(['title']);
 </script>
 
 
 <style scoped>
+/* Container-Stil für Zentrierung horizontal und vertikal */
 .container {
   display: flex;
   justify-content: center; /* Zentriert Inhalte horizontal */
@@ -25,23 +26,22 @@ defineProps(['title']);
 }
 
 h2 {
-  /* Überschrift */
+  /* Formatierung Titel */
   text-align: center;
   color: #32CD32;
   font-size: 34px;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-.about-component {
-  font-family: Arial, sans-serif;
+/* Formatierung Überschrift */
+h1 {
+  color: #32CD32;
+  font-size: 30px;
   text-align: center;
 }
 
-h1 {
-  color: #32CD32;
-  font-size: 34px;
-}
-
+/* Formatierung Text */
 p {
   color: #32CD32;
   font-size: 20px;

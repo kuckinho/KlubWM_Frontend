@@ -1,6 +1,3 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
 
 <template>
   <div>
@@ -22,7 +19,14 @@ import { RouterLink, RouterView } from 'vue-router'
   </div>
 </template>
 
+
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+</script>
+
+
 <style scoped>
+/* Formatierung Navigationsleiste */
 header {
   line-height: 1.5;
   width: 100%;
@@ -34,6 +38,7 @@ header {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Formatierung Navigationsleiste Größe */
 .wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -41,29 +46,35 @@ header {
   justify-content: center;
 }
 
+/* Formatierung Navigationsleiste Größe Links */
 nav {
   width: 100%;
   font-size: 22px;
   text-align: center;
 }
 
+/* Formatierung Navigationsleiste nicht aktiver Link */
 nav a {
   display: inline-block;
   padding: 0 1rem;
   color: black;
 }
 
+/* Formatierung Navigationsleiste aktiver Link */
 nav a.router-link-active {
-  color: dodgerblue;
+  color: #32CD32;
   background-color: transparent;
+  font-weight: bold;
 }
 
+/* Formatierung Navigationsleiste Links */
 nav a:first-of-type {
   border: 0;
 }
 
+/* Hauptinhalt durch Navigationsleiste anpassen */
 main {
-  padding-top: 60px; /* Anpassung für Platz unter der fixierten Navigationsleiste */
+  padding-top: 60px;
 }
 
 </style>
