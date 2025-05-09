@@ -33,7 +33,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #cfc;
+  background-color: #003366;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -57,7 +57,7 @@ nav {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  color: black;
+  color: #ccffcc;
 }
 
 /* Formatierung Navigationsleiste aktiver Link */

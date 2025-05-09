@@ -2,7 +2,7 @@
 <template>
   <div>
     <!-- Titel für Komponente -->
-    <CountdownTimer title="Timer zum Eröffnungsspiel" />
+    <CountdownTimer title="Countdowns zur FIFA Klub-WM" />
   </div>
 </template>
 
