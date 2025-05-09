@@ -20,6 +20,39 @@ main {
   padding: 20px;
 }
 
+h3 {
+  text-align: center;
+  margin-top: 30px;
+  color: #32CD32;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* Formatierung Titel */
+h2 {
+  text-align: center;
+  color: #ccffcc;
+  font-size: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Formatierung Titel */
+h1 {
+  text-align: center;
+  color: #ccffcc;
+  font-size: 25px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+/* Formatierung Text */
+p {
+  text-align: center;
+  font-size: 20px;
+}
+
 /* Formatierung Navigationsleiste (Router-Links) */
 a,
 .green {

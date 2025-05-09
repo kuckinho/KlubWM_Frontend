@@ -1,6 +1,6 @@
 
 <template>
-  <h2>{{ title }}</h2>
+  <h3>{{ title }}</h3>
 
   <!-- Initialisierung Suchfeld und Filteroptionen in einer Reihe -->
   <div class="filters">
@@ -147,16 +147,6 @@ onMounted(() => {
 
 
 <style scoped>
-
-/* Formatierung Titel */
-h2 {
-  text-align: center;
-  color: #32CD32;
-  font-size: 34px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
 /* Formatierung Tabellen-Struktur */
 table {
   margin: 8px 0;

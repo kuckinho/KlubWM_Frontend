@@ -1,10 +1,10 @@
 
 <template>
-  <h2>{{ title }}</h2>
+  <h3>{{ title }}</h3>
   <div class="container">
 
     <div class="countdown-wrapper">
-      <h3>Eröffnungsspiel</h3>
+      <h2>Eröffnungsspiel</h2>
       <p>Gruppe A: Al Ahly FC - Inter Miami CF</p>
       <p>Hard-Rock-Stadion, Miami</p>
         <p>14 Juni, 20 Uhr (15. Juni 02 Uhr MESZ)</p>
@@ -32,7 +32,7 @@
     <div class="divider"></div>
 
     <div class="countdown-wrapper">
-      <h3>Finalspiel</h3>
+      <h2>Finalspiel</h2>
       <p>Sieger Halbfinale 1 - Sieger Halbfinale 2</p>
       <p>MetLife-Stadion, New York</p>
         <p>13 Juli, 15 Uhr (21 Uhr MESZ)</p>
@@ -147,31 +147,8 @@ onUnmounted(() => {
 .divider {
   width: 1px;
   background-color: #ccffcc;
-  height: auto;
-  align-self: stretch;
-}
-
-/* Formatierung Titel */
-h2 {
-  text-align: center;
-  color: #32CD32;
-  font-size: 34px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-h3 {
-  text-align: center;
-  margin-top: 30px;
-  color: #32CD32;
-  font-size: 25px;
-  font-weight: bold;
-}
-
-p {
-  text-align: center;
-  color: #FFFFFF;
-  font-size: 20px;
+  height: 200px;
+  align-self: center;
 }
 
 /* Formatierung Tabellen-Struktur */

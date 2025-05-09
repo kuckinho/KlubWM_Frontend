@@ -3,8 +3,6 @@
   <h3>{{ title }}</h3>
   <div class="container">
     <div class="about-component">
-      <h2>Willkommen auf unserer Webseite</h2>
-      <h1>Hier findest du alle Informationen rund um die FIFA Klub-WM 2025</h1>
     </div>
   </div>
 </template>
@@ -20,8 +18,8 @@ defineProps(['title']);
 /* Container-Stil für Zentrierung horizontal und vertikal */
 .container {
   display: flex;
-  justify-content: center; /* Zentriert Inhalte horizontal */
-  align-items: center; /* Zentriert Inhalte vertikal */
+  justify-content: center;
+  align-items: center;
   height: 50vh;
 }
 
