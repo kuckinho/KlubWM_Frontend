@@ -10,6 +10,7 @@
           <RouterLink to="/clubs">Clubs</RouterLink>
           <RouterLink to="/stadiums">Spielorte</RouterLink>
           <RouterLink to="/timer">Countdown</RouterLink>
+          <RouterLink to="/pictures">Bildergalerie</RouterLink>
         </nav>
       </div>
     </header>

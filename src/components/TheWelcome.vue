@@ -21,5 +21,4 @@ defineProps(['title']);
   height: auto;
   display: block;
 }
-
 </style>
