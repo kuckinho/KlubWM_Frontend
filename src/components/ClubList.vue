@@ -147,9 +147,14 @@ onMounted(() => {
 
 
 <style scoped>
+/* Formatierung Titel */
+h3 {
+  margin-bottom: 20px;
+}
+
 /* Formatierung Tabellen-Struktur */
 table {
-  margin: 8px 0;
+  margin: 10px 0;
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;

@@ -5,10 +5,11 @@
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/about">KlubWM</RouterLink>
+          <RouterLink to="/tournament">Turnierbaum</RouterLink>
           <RouterLink to="/clubs">Clubs</RouterLink>
-          <RouterLink to="/stadiums">Stadiums</RouterLink>
-          <RouterLink to="/timer">Timer</RouterLink>
+          <RouterLink to="/stadiums">Spielorte</RouterLink>
+          <RouterLink to="/timer">Countdown</RouterLink>
         </nav>
       </div>
     </header>

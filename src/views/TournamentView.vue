@@ -2,12 +2,12 @@
 <template>
   <div>
     <!-- Titel für Komponente -->
-    <TheWelcome title="Willkommen auf der HTW-WebTech-KlubWM-Website" />
+    <TournamentTree title="Turnierbaum und Gruppenübersicht" />
   </div>
 </template>
 
 
 <script setup>
 // Aufruf für Komponente
-import TheWelcome from '../components/TheWelcome.vue'
+import TournamentTree from '../components/TournamentTree.vue';
 </script>
