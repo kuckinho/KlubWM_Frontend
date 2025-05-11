@@ -6,7 +6,6 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Hier Basispfad Projekt definieren
   base: '/',
 
   plugins: [
@@ -20,16 +19,15 @@ export default defineConfig({
     },
   },
 
-  // Optional: Falls zusätzliche serverbezogene Entwicklungen oder Proxies benötigt werden
   server: {
-    port: 3000, // Beispielport für lokales Arbeiten, Standard: 5173
-    strictPort: true, // Fehler, wenn Port bereits belegt
-    proxy: {
+    port: 3000,
+    strictPort: true,
+    proxy: process.env.NODE_ENV === 'development' ? {
       '/api': {
-        target: 'http://localhost:8080', // Ziel-API-Server
+        target: 'http://localhost:8080',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
-    },
+    } : undefined,
   },
 });

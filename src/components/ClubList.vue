@@ -66,6 +66,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import apiClient from '../axios';
 
 // Props für Titel
 defineProps(['title']);
@@ -80,7 +81,7 @@ const filters = ref({
 let currentId = 1;
 
 // Initialisierung Clubs mit Daten
-function initClubs() {
+/* function initClubs() {
   const initialClubs = [
     { name: 'Manchester City', country: 'England', location: 'Manchester', league: 'Premier League', averageAge: 26.8, marketValue: '1,31 Mrd. €' },
     { name: 'Real Madrid', country: 'Spanien', location: 'Madrid', league: 'La Liga', averageAge: 27.1, marketValue: '1,27 Mrd. €' },
@@ -119,6 +120,27 @@ function initClubs() {
     clubs.value.push({ ...club, id: currentId++ });
   });
 }
+*/
+
+async function fetchClubs() {
+  try {
+    console.log('Fetching clubs data from API...');
+    const response = await apiClient.get('/api/v1/matches');
+    console.log('Data fetched successfully:', response.data);
+    //Weiterverarbeiten der Daten
+    const fetchedClubs = response.data.map(match => ({
+      name: `${match.homeTeam} vs ${match.visitorTeam}`,
+      country: 'Unbekannt',
+      location: 'Unbekannt',
+      league: 'Unbekannt',
+      averageAge: (match.homeScore + match.visitorScore) / 2,
+      marketValue: `Heim ${match.homeScore} - Gast ${match.visitorScore}`
+    }));
+    clubs.value = fetchedClubs.map(club => ({ ...club, id: currentId++ }));
+  } catch (error) {
+    console.error('Fehler beim Abrufen der Matches:', error);
+  }
+}
 
 // Clubliste filtern basierend auf Suchbegriff und festgelegten Filtern
 const filteredClubs = computed(() => {
@@ -141,7 +163,8 @@ function getUniqueValues(column) {
 
 // Initialisierung Club-Daten beim Laden der Komponente
 onMounted(() => {
-  initClubs();
+  fetchClubs();
+  //initClubs();
 });
 </script>
 
