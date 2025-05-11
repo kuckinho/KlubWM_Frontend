@@ -77,6 +77,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 
+
 // Props für Titel
 defineProps(['title']);
 
@@ -129,6 +130,8 @@ function initClubs() {
     clubs.value.push({ ...club, id: currentId++ });
   });
 }
+
+
 
 // Clubliste filtern basierend auf Suchbegriff und festgelegten Filtern
 const filteredClubs = computed(() => {
