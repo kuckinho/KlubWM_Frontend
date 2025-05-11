@@ -2,44 +2,55 @@
 <template>
   <h3>{{ title }}</h3>
 
-  <!-- Initialisierung Suchfeld und Filteroptionen in einer Reihe -->
-  <div class="filters">
-    <input
-      type="text"
-      v-model="searchQuery"
-      placeholder="Verein suchen..."
-      @input="filterClubs"
-    />
+  <!-- Flexbox-Container für Button und Filter -->
+  <div class="filter-container">
 
-    <!-- Filteroption Herkunftsland -->
-    <label>
-      Herkunftsland
-      <select v-model="filters.country" @change="filterClubs">
-        <option value="">Alle</option>
-        <option
-          v-for="option in getUniqueValues('country')"
-          :key="option"
-          :value="option"
-        >
-          {{ option }}
-        </option>
-      </select>
-    </label>
+    <!-- Initialisierung Suchfeld und Filteroptionen in einer Reihe -->
+    <div class="filters">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Verein suchen..."
+        @input="filterClubs"
+      />
 
-    <!-- Filteroption Heimatliga -->
-    <label>
-      Heimatliga
-      <select v-model="filters.league" @change="filterClubs">
-        <option value="">Alle</option>
-        <option
-          v-for="option in getUniqueValues('league')"
-          :key="option"
-          :value="option"
-        >
-          {{ option }}
-        </option>
-      </select>
-    </label>
+      <!-- Filteroption Herkunftsland -->
+      <label>
+        Herkunftsland
+        <select v-model="filters.country" @change="filterClubs">
+          <option value="">Alle</option>
+          <option
+            v-for="option in getUniqueValues('country')"
+            :key="option"
+            :value="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </label>
+
+      <!-- Filteroption Heimatliga -->
+      <label>
+        Heimatliga
+        <select v-model="filters.league" @change="filterClubs">
+          <option value="">Alle</option>
+          <option
+            v-for="option in getUniqueValues('league')"
+            :key="option"
+            :value="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </label>
+
+      <!-- Hinzufügen des als Button gestylten Links -->
+      <a href="https://www.fifa.com/de/tournaments/mens/club-world-cup/usa-2025/teams"
+         target="_blank"
+         class="custom-button">
+        Zur FIFA-Teilnehmerübersicht
+      </a>
+    </div>
   </div>
 
   <!-- Initialisierung Tabellenstruktur -->
@@ -62,7 +73,6 @@
     </tr>
   </table>
 </template>
-
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
@@ -145,8 +155,39 @@ onMounted(() => {
 });
 </script>
 
-
 <style scoped>
+/* Flex-Container für Button und Filter */
+.filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+/* Formatierung Button-ähnlicher Link */
+.custom-button {
+  display: flex;
+  padding: 5px 15px;
+  border-radius: 50px;
+  width: 275px;
+  justify-content: center;
+  color: #cfc;
+  background-color: #003366;
+  transition: background-color 0.3s;
+}
+
+.custom-button:hover {
+  background-color: #003366;
+  color: #39FF14;
+  font-weight: bold;
+}
+
+/* Formatierung Filter */
+.filters {
+  display: flex;
+  align-items: center;
+}
+
 /* Formatierung Titel */
 h3 {
   margin-bottom: 20px;
@@ -189,7 +230,7 @@ th:nth-child(6), td:nth-child(6) { width: 10%; }
 
 /* Formatierung Filter und Suchfunktion */
 input, select {
-  margin-right: 10px;
+  margin-right: 20px;
   padding: 5px;
 }
 </style>

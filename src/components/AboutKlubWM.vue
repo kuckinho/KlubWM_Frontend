@@ -1,8 +1,23 @@
-
 <template>
   <h3>{{ title }}</h3>
-  <div class="container">
 
+  <!-- Buttons für das Öffnen der PDF-Dokumente -->
+  <div class="button-container">
+    <button @click="openPDF('Regulations.pdf')" class="open-button">
+      Ansehen: Turnier-Regularien
+    </button>
+    <button @click="openPDF('MatchSchedule.pdf')" class="open-button">
+      Ansehen: Turnierspielplan
+    </button>
+    <button @click="openPDF('DrawProcedures.pdf')"  class="open-button">
+      Ansehen: Auslosungsverfahren
+    </button>
+    <button @click="openPDF('Compliance.pdf')"  class="open-button">
+      Ansehen: Auslosungsverfahren
+    </button>
+  </div>
+
+  <div class="container">
     <!-- Linkes Bild -->
     <div class="image-container-l1">
       <img src="/ChampionsBadge.png" alt="Champions Badge" />
@@ -73,12 +88,16 @@
     </div>
 
   </div>
-
 </template>
 
 <script setup>
 // Props für Titel
 defineProps(['title']);
+
+// Funktion zum Öffnen der PDF-Datei in einem neuen Tab
+function openPDF(url) {
+  window.open(url, '_blank');
+}
 </script>
 
 <style scoped>
@@ -111,7 +130,7 @@ defineProps(['title']);
 .about-component {
   flex: 1;
   max-width: 800px;
-  margin: 0 10px; /* Weniger Margin um den Textinhalt */
+  margin: 0 10px;
 }
 
 section {
@@ -128,4 +147,31 @@ ul {
   list-style-type: disc;
   margin-left: 20px;
 }
+
+/* Button Styles */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.open-button {
+  display: flex;
+  padding: 9px 15px;
+  border-radius: 50px;
+  width: 275px;
+  color: #cfc;
+  background-color: #003366;
+  transition: background-color 0.3s;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.open-button:hover {
+  background-color: #003366;
+  color: #39FF14;
+  font-weight: bold;
+}
+
 </style>

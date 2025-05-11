@@ -1,40 +1,51 @@
-
 <template>
   <h3>{{ title }}</h3>
 
-  <!-- Initialisierung Suchfeld und Filteroptionen in einer Reihe -->
-  <div class="filters">
-    <input
-      type="text"
-      v-model="searchQuery"
-      placeholder="Stadion suchen..."
-      @input="filterStadiums"
-    />
+  <!-- Flexbox-Container für Button und Filter -->
+  <div class="filter-container">
 
-    <!-- Filteroption Stadt -->
-    <label>
-      Stadt
-      <select v-model="filters.city" @change="filterStadiums">
-        <option value="">Alle</option>
-        <option
-          v-for="option in getUniqueValues('city')"
-          :key="option"
-          :value="option"
-        >
-          {{ option }}
-        </option>
-      </select>
-    </label>
+    <!-- Initialisierung Suchfeld und Filteroptionen in einer Reihe -->
+    <div class="filters">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Stadion suchen..."
+        @input="filterStadiums"
+      />
 
-    <!-- Filteroption Phase -->
-    <label>
-      Phase
-      <select v-model="filters.phase" @change="filterStadiums">
-        <option value="">Alle</option>
-        <option value="group">Gruppenphase</option>
-        <option value="ko">K.O.-Phase</option>
-      </select>
-    </label>
+      <!-- Filteroption Stadt -->
+      <label>
+        Stadt
+        <select v-model="filters.city" @change="filterStadiums">
+          <option value="">Alle</option>
+          <option
+            v-for="option in getUniqueValues('city')"
+            :key="option"
+            :value="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </label>
+
+      <!-- Filteroption Phase -->
+      <label>
+        Phase
+        <select v-model="filters.phase" @change="filterStadiums">
+          <option value="">Alle</option>
+          <option value="group">Gruppenphase</option>
+          <option value="ko">K.O.-Phase</option>
+        </select>
+      </label>
+
+      <!-- Hinzufügen des als Button gestylten Links -->
+      <a href="https://www.fifa.com/de/tournaments/mens/club-world-cup/usa-2025/articles/stadien-fifa-klub-wm-2025-uebersicht"
+         target="_blank"
+         class="custom-button">
+        Zur FIFA-Stadionübersicht
+      </a>
+
+    </div>
   </div>
 
   <!-- Initialisierung Tabellenstruktur -->
@@ -59,7 +70,6 @@
     </tr>
   </table>
 </template>
-
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -310,8 +320,39 @@ onMounted(() => {
 
 </script>
 
-
 <style scoped>
+/* Flex-Container für Button und Filter */
+.filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+/* Formatierung Button-ähnlicher Link */
+.custom-button {
+  display: flex;
+  padding: 5px 15px;
+  border-radius: 50px;
+  width: 275px;
+  justify-content: center;
+  color: #cfc;
+  background-color: #003366;
+  transition: background-color 0.3s;
+}
+
+.custom-button:hover {
+  background-color: #003366;
+  color: #39FF14;
+  font-weight: bold;
+}
+
+/* Formatierung Filter */
+.filters {
+  display: flex;
+  align-items: center;
+}
+
 /* Formatierung Titel */
 h3 {
   margin-bottom: 20px;
@@ -354,7 +395,7 @@ th:nth-child(5), td:nth-child(5) { width: 45%; }
 /* Formatierung Filter und Suchfunktion */
 input,
 select {
-  margin-right: 10px;
+  margin-right: 20px;
   padding: 5px;
 }
 
