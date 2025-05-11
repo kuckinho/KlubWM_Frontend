@@ -10,7 +10,7 @@
 defineProps(['title']);
 
 import { ref, onMounted } from 'vue';
-import apiClient from 'src/Axios.js';
+import apiClient from '../axios.js';
 
 const matches = ref([]);
 
