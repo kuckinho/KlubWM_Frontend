@@ -8,6 +8,20 @@
 <script setup>
 // Props für Titel
 defineProps(['title']);
+
+import { ref, onMounted } from 'vue';
+import apiClient from 'src/Axios.js';
+
+const matches = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await apiClient.get('/matches');
+    matches.value = response.data;
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+  }
+});
 </script>
 
 
