@@ -2,13 +2,12 @@
 <template>
   <div>
     <!-- Titel für Komponente -->
-    <AboutKlubWM title="Informationen zur FIFA Klub-WM 2025" />
+    <LoginUser title="Login zum User" />
   </div>
 </template>
 
 
 <script setup>
 // Aufruf für Komponente
-import AboutKlubWM from '../components/AboutKlubWM.vue'
+import LoginUser from '../components/LoginUser.vue'
 </script>
-

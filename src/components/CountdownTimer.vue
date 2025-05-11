@@ -131,9 +131,8 @@ onUnmounted(() => {
 });
 </script>
 
+
 <style scoped>
-
-
 /* Formatierung Container Flexbox */
 .container {
   display: flex;

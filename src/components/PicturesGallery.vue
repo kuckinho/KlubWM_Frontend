@@ -44,7 +44,7 @@ const images = [
 
 <style>
 h3 {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .gallery-image {

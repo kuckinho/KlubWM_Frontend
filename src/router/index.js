@@ -6,6 +6,8 @@ import StadiumsView from '../views/StadiumsView.vue'
 import TimerView from '../views/TimerView.vue'
 import TournamentView from '../views/TournamentView.vue'
 import PicturesView from '../views/PicturesView.vue'
+import LoginView from '../views/LoginView.vue'
+import CalculatorView from '../views/CalculatorView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +46,16 @@ const router = createRouter({
       path: '/pictures',
       name: 'pictures',
       component: PicturesView,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
+    {
+      path: '/calculator',
+      name: 'calculator',
+      component: CalculatorView,
     },
   ],
 })

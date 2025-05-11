@@ -70,6 +70,14 @@ defineProps(['title']);
 </script>
 
 <style scoped>
+h3 {
+  margin-bottom: 10px;
+}
+
+h2 {
+  margin-top: 10px;
+}
+
 .home-image {
   width: 1900px;
   height: auto;

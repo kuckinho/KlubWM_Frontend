@@ -326,7 +326,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 /* Formatierung Button-ähnlicher Link */

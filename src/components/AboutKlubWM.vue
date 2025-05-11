@@ -150,6 +150,7 @@ ul {
 
 /* Button Styles */
 .button-container {
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   gap: 10px;
