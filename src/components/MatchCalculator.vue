@@ -20,7 +20,7 @@ const matches = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await apiClient.get('/api/v1/matches');
+    const response = await apiClient.get('/matches');
     console.log("Fetched matches:", response.data);  // Diese Zeile fügt ein Log hinzu
     matches.value = response.data;
   } catch (error) {
