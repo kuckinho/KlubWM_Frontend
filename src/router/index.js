@@ -8,6 +8,7 @@ import TournamentView from '../views/TournamentView.vue'
 import PicturesView from '../views/PicturesView.vue'
 import LoginView from '../views/LoginView.vue'
 import CalculatorView from '../views/CalculatorView.vue'
+import ChampionsView from '../views/ChampionsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/calculator',
       name: 'calculator',
       component: CalculatorView,
+    },
+    {
+      path: '/champions',
+      name: 'champions',
+      component: ChampionsView,
     },
   ],
 })

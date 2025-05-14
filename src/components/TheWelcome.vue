@@ -62,10 +62,23 @@
   <section class="home-image">
     <img src="/Home1.png" alt="Bild 1" class="home-image" />
   </section>
+
+  <div class="video-container">
+    <h2>Bald rollt der Ball! </h2>
+    <video controls autoplay muted width="100%" style="max-width: 2000px;">
+      <source src="/public/Video2.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="video-container">
+    <h2>Die Vorfreude steigt! </h2>
+    <video controls autoplay muted width="100%" style="max-width: 2000px;">
+      <source src="/public/Video1.mp4" type="video/mp4" />
+    </video>
+  </div>
 </template>
 
 <script setup>
-// Props für Titel
 defineProps(['title']);
 </script>
 
@@ -124,5 +137,13 @@ h2 {
 .icon-nav-item:hover p {
   color: #39FF14;
   font-weight: bold;
+}
+
+.video-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 </style>

@@ -13,7 +13,7 @@
           <RouterLink to="/tournament">Turnier</RouterLink>
           <RouterLink to="/clubs">Teilnehmer</RouterLink>
           <RouterLink to="/stadiums">Spielorte</RouterLink>
-
+          <RouterLink to="/champions">Gewinner</RouterLink>
         </nav>
       </div>
     </header>
@@ -41,11 +41,12 @@ header {
   background-color: #003366;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 /* Formatierung Navigationsleiste Größe */
 .wrapper {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1rem;
   justify-content: center;
