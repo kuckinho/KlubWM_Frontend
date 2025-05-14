@@ -3,7 +3,10 @@
   <h3>{{ title }}</h3>
   <ul>
     <li v-for="match in matches" :key="match.id">
-      {{ match.homeTeam }} vs {{ match.visitorTeam }}: {{ match.homeScore }} - {{ match.visitorScore }}
+      {{ match.homeTeam }} vs {{ match.visitorTeam }}:
+      <input type="number" v-model.number="match.homeScore" placeholder="Home" /> -
+      <input type="number" v-model.number="match.visitorScore" placeholder="Visitor" />
+      <button @click="saveMatch(match)">Speichern</button>
     </li>
   </ul>
 </template>
@@ -27,6 +30,15 @@ onMounted(async () => {
     console.error("Error fetching matches:", error);
   }
 });
+
+async function saveMatch(match) {
+  try {
+    const response = await apiClient.post('/matches', match);
+    console.log("Match result saved:", response.data);
+  } catch (error) {
+    console.error("Error saving match:", error);
+  }
+}
 </script>
 
 
