@@ -1,4 +1,3 @@
-
 <template>
   <h3>{{ title }}</h3>
   <h2>Hier findest du Informationen und Funktionen rund um die FIFA Klub-WM 2025</h2>
@@ -56,6 +55,12 @@
           <p>Informationen zu Spielorten</p>
         </div>
       </router-link>
+      <router-link to="/champions" class="icon-nav-link">
+        <div class="icon-nav-item">
+          <img src="/Home_Champions.png" alt="Stadiums Icon" class="nav-icon" />
+          <p>Informationen zu Champions</p>
+        </div>
+      </router-link>
     </div>
   </div>
 
@@ -63,89 +68,121 @@
     <img src="/Home1.png" alt="Bild 1" class="home-image" />
   </section>
 
-  <!--  <div class="video-container">
-     <h2>Bald rollt der Ball! </h2>
-     <video controls autoplay muted width="100%" style="max-width: 2000px;">
-       <source src="/public/Video2.mp4" type="video/mp4" />
-     </video>
-   </div>
+  <router-link to="/calculator" class="icon-nav-link">
+  <div class="video-container">
+    <h2>Der Ball rollt!</h2>
+    <video controls autoplay muted loop width="100%" style="max-width: 2000px;">
+      <source src="/public/Video2.mp4" type="video/mp4" />
+    </video>
+  </div>
+  </router-link>
 
+  <!-- Flex Container für die Videos 1, 3 und 4 in einer Reihe -->
+  <div class="video-row">
+    <router-link to="/clubs" class="icon-nav-link">
     <div class="video-container">
-      <h2>Die Vorfreude steigt! </h2>
-      <video controls autoplay muted width="100%" style="max-width: 2000px;">
+      <h2>Die Vorfreude bei den Fans steigt:</h2>
+      <video controls autoplay muted loop width="100%" style="max-width: 640px;">
         <source src="/public/Video1.mp4" type="video/mp4" />
       </video>
     </div>
-  -->
+    </router-link>
 
-  </template>
+    <router-link to="/about" class="icon-nav-link">
+    <div class="video-container">
+      <h2>Alles zur FIFA Klub-WM: </h2>
+      <video controls autoplay muted loop width="100%" style="max-width: 640px;">
+        <source src="/public/Video3.mp4" type="video/mp4" />
+      </video>
+    </div>
+    </router-link>
 
- <script setup>
- defineProps(['title']);
- </script>
+    <router-link to="/stadiums" class="icon-nav-link">
+    <div class="video-container">
+      <h2>Alles zur Stadionübersicht: </h2>
+      <video controls autoplay muted loop width="100%" style="max-width: 640px;">
+        <source src="/public/Video4.mp4" type="video/mp4" />
+      </video>
+    </div>
+    </router-link>
+  </div>
 
- <style scoped>
- h3 {
-   margin-bottom: 10px;
- }
 
- h2 {
-   margin-top: 10px;
- }
+</template>
 
- .home-image {
-   width: 1900px;
-   height: auto;
-   display: block;
- }
+<script setup>
+defineProps(['title']);
+</script>
 
- /* Flex Container für Icon-basierte Navigation */
- .icon-nav-container {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   gap: 20px;
-   margin-top: 30px;
- }
+<style scoped>
+h3 {
+  margin-bottom: 10px;
+}
 
- /* Jede Reihe enthält vier Icons */
- .icon-nav-row {
-   display: flex;
-   justify-content: center;
-   gap: 50px;
- }
+h2 {
+  margin-top: 10px;
+}
 
- /* Styling für die Links */
- .icon-nav-link {
-   text-decoration: none;
-   color: #ccffcc;
-   background-color: transparent;
- }
+.home-image {
+  width: 1900px;
+  height: auto;
+  display: block;
+}
 
- /* Styling für die einzelnen Navigations-Icons und Texte */
- .icon-nav-item {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   width: 300px;
- }
+/* Flex Container für Icon-basierte Navigation */
+.icon-nav-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
 
- .nav-icon {
-   width: 60px;
-   height: 60px;
-   margin-bottom: 5px;
- }
+/* Jede Reihe enthält vier Icons */
+.icon-nav-row {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
 
- .icon-nav-item:hover p {
-   color: #39FF14;
-   font-weight: bold;
- }
+/* Styling für die Links */
+.icon-nav-link {
+  text-decoration: none;
+  color: #ccffcc;
+  background-color: transparent;
+}
 
- .video-container {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   gap: 20px;
-   margin-top: 20px;
- }
- </style>
+/* Styling für die einzelnen Navigations-Icons und Texte */
+.icon-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+}
+
+.nav-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 5px;
+}
+
+.icon-nav-item:hover p {
+  color: #39FF14;
+  font-weight: bold;
+}
+
+.video-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Neuer Flex Container für Videos in einer Reihe */
+.video-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+</style>

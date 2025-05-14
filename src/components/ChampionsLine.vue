@@ -3,23 +3,34 @@
   <h3>{{ title }}</h3>
 
   <div class="timeline-and-records-container">
-  <div class="timeline-container">
-    <div class="timeline-item" v-for="event in timelineEvents" :key="event.year">
-      <div class="year">{{ event.year }}</div>
-      <div class="content">
-        <h2>{{ event.winner }}</h2>
-        <p>{{ event.location }}</p>
-        <p>{{ event.score }}</p>
+    <!-- Timeline-Abschnitt -->
+    <h2>Übersicht der bisherigen Champions</h2>
+    <div class="timeline-container">
+      <div class="timeline-scroll-area">
+        <div class="timeline-item" v-for="event in timelineEvents" :key="event.year">
+          <div class="year">{{ event.year }}</div>
+          <div class="content">
+            <h2>{{ event.winner }}</h2>
+            <p>{{ event.location }}</p>
+            <p>{{ event.score }}</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
     <!-- Rekordsieger-Abschnitt -->
+    <h2>Übersicht der Rekord-Champions</h2>
     <div class="records-container">
-      <div class="timeline-item" v-for="team in recordWinners" :key="team.team">
-        <div class="counter">{{ team.wins }}</div>
-        <div class="content">
-          <h2>{{ team.team }}</h2>
+      <div class="records-scroll-area">
+        <div class="timeline-item" v-for="team in rankedTeams" :key="team.team">
+          <!-- # vor dem Platz -->
+          <div class="counter">#{{ team.rank }}</div>
+          <div class="content">
+            <h2>{{ team.team }}</h2>
+            <p>
+              <span v-for="n in team.wins" :key="n">★</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -27,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { defineProps } from 'vue';
 
 // Props für Titel
@@ -74,42 +85,88 @@ const recordWinners = ref([
   { team: 'SC Internacional', wins: 1 },
   { team: 'FC São Paulo', wins: 1 },
 ])
+
+const rankedTeams = computed(() => {
+  // Erstelle eine neue Liste und sortiere sie nach Siegen absteigend
+  const sortedTeams = [...recordWinners.value].sort((a, b) => b.wins - a.wins);
+
+  // Vergib Plätze, dabei Erkennen von Gleichstand
+  let rank = 1; // Beginne mit Rang 1
+  let lastWins = sortedTeams[0].wins; // Die Anzahl der Siege des besten/ersten Teams
+
+  return sortedTeams.map((team, index) => {
+    if (team.wins < lastWins) {
+      rank = index + 1; // Aktualisiere den Rang entsprechend der Position
+      lastWins = team.wins;
+    }
+
+    return {
+      ...team,
+      rank
+    };
+  });
+});
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Verhindert das Scrollen der gesamten Seite */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h3 {
+  margin-bottom: 5px;
+}
+
+h2 {
+  margin-bottom: 5px;
+  color: #B8860B;
+}
+
 .timeline-and-records-container {
   display: flex;
-  justify-content: space-around;
-  margin-top: 25px;
-  gap: 100px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  max-width: 100vw;
 }
 
-.timeline-container {
-  background: #003366;
-  border-radius: 10px;
-  padding: 10px;
-  max-width: 600px;
-}
-
+.timeline-container,
 .records-container {
-  background: #003366;
+  background: transparent;
   border-radius: 10px;
   padding: 10px;
-  max-width: 600px;
-  max-height: 2200px;
+  max-width: 90%; /* Passe die Breite an, um genügend Platz zu lassen */
+  width: 100%;
+  height: 40%;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 20px;
+}
+
+.timeline-scroll-area,
+.records-scroll-area {
+  display: inline-flex;
 }
 
 .timeline-item {
-  position: relative;
-  width: 100%;
+  width: 350px;
   text-align: center;
+  display: inline-block;
+  margin: 0 10px;
 }
 
-.year {
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
+.year, .counter {
   font-size: 1.5rem;
   font-weight: bold;
   background-color: #32CD32;
@@ -117,56 +174,28 @@ const recordWinners = ref([
   padding: 5px 10px;
   border-radius: 50%;
   width: 80px;
-  z-index: 1;
-}
-
-.counter {
-  position: absolute;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.5rem;
-  font-weight: bold;
-  background-color: #32CD32;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 50%;
-  width: 80px;
-  z-index: 1;
+  display: inline-block;
+  margin-bottom: -10px;
 }
 
 .content {
-  background-color: #fff;
+  background-color: #ccffcc;
   color: #003366;
-  padding: 20px 10px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-  margin-top: 50px;
-}
-
-.records-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 10px;
-}
-
-.records-container h3 {
-  color: #fff;
-  margin-bottom: 10px;
-}
-
-.records-container ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.records-container li {
-  margin: 5px 0;
 }
 
 .content p {
   font-weight: bold;
   margin: 2px 0;
+}
+
+.records-container h3,
+.records-container ul,
+.records-container li {
+  color: #fff;
+  margin: 5px 0;
+  text-align: left;
 }
 </style>
