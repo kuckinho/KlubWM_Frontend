@@ -63,87 +63,89 @@
     <img src="/Home1.png" alt="Bild 1" class="home-image" />
   </section>
 
-  <div class="video-container">
-    <h2>Bald rollt der Ball! </h2>
-    <video controls autoplay muted width="100%" style="max-width: 2000px;">
-      <source src="/public/Video2.mp4" type="video/mp4" />
-    </video>
-  </div>
+  <!--  <div class="video-container">
+     <h2>Bald rollt der Ball! </h2>
+     <video controls autoplay muted width="100%" style="max-width: 2000px;">
+       <source src="/public/Video2.mp4" type="video/mp4" />
+     </video>
+   </div>
 
-  <div class="video-container">
-    <h2>Die Vorfreude steigt! </h2>
-    <video controls autoplay muted width="100%" style="max-width: 2000px;">
-      <source src="/public/Video1.mp4" type="video/mp4" />
-    </video>
-  </div>
-</template>
+    <div class="video-container">
+      <h2>Die Vorfreude steigt! </h2>
+      <video controls autoplay muted width="100%" style="max-width: 2000px;">
+        <source src="/public/Video1.mp4" type="video/mp4" />
+      </video>
+    </div>
+  -->
 
-<script setup>
-defineProps(['title']);
-</script>
+  </template>
 
-<style scoped>
-h3 {
-  margin-bottom: 10px;
-}
+ <script setup>
+ defineProps(['title']);
+ </script>
 
-h2 {
-  margin-top: 10px;
-}
+ <style scoped>
+ h3 {
+   margin-bottom: 10px;
+ }
 
-.home-image {
-  width: 1900px;
-  height: auto;
-  display: block;
-}
+ h2 {
+   margin-top: 10px;
+ }
 
-/* Flex Container für Icon-basierte Navigation */
-.icon-nav-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-top: 30px;
-}
+ .home-image {
+   width: 1900px;
+   height: auto;
+   display: block;
+ }
 
-/* Jede Reihe enthält vier Icons */
-.icon-nav-row {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-}
+ /* Flex Container für Icon-basierte Navigation */
+ .icon-nav-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 20px;
+   margin-top: 30px;
+ }
 
-/* Styling für die Links */
-.icon-nav-link {
-  text-decoration: none;
-  color: #ccffcc;
-  background-color: transparent;
-}
+ /* Jede Reihe enthält vier Icons */
+ .icon-nav-row {
+   display: flex;
+   justify-content: center;
+   gap: 50px;
+ }
 
-/* Styling für die einzelnen Navigations-Icons und Texte */
-.icon-nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
-}
+ /* Styling für die Links */
+ .icon-nav-link {
+   text-decoration: none;
+   color: #ccffcc;
+   background-color: transparent;
+ }
 
-.nav-icon {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 5px;
-}
+ /* Styling für die einzelnen Navigations-Icons und Texte */
+ .icon-nav-item {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 300px;
+ }
 
-.icon-nav-item:hover p {
-  color: #39FF14;
-  font-weight: bold;
-}
+ .nav-icon {
+   width: 60px;
+   height: 60px;
+   margin-bottom: 5px;
+ }
 
-.video-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
-}
-</style>
+ .icon-nav-item:hover p {
+   color: #39FF14;
+   font-weight: bold;
+ }
+
+ .video-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 20px;
+   margin-top: 20px;
+ }
+ </style>
