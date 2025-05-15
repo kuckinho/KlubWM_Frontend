@@ -88,8 +88,9 @@
       </div>
       </router-link>
      </div>
-       <!--
-             <router-link to="/about" class="icon-nav-link">
+
+
+        <router-link to="/about" class="icon-nav-link">
              <div class="video-container">
                <h2>Alles zur FIFA Klub-WM: </h2>
                <video controls autoplay muted loop width="100%" style="max-width: 640px;">
@@ -97,17 +98,17 @@
                </video>
              </div>
              </router-link>
-
-             <router-link to="/stadiums" class="icon-nav-link">
-             <div class="video-container">
-               <h2>Alles zur Stadionübersicht: </h2>
-               <video controls autoplay muted loop width="100%" style="max-width: 640px;">
-                 <source src="/public/Video4.mp4" type="video/mp4" />
-               </video>
+  <!--
+               <router-link to="/stadiums" class="icon-nav-link">
+               <div class="video-container">
+                 <h2>Alles zur Stadionübersicht: </h2>
+                 <video controls autoplay muted loop width="100%" style="max-width: 640px;">
+                   <source src="/public/Video4.mp4" type="video/mp4" />
+                 </video>
+               </div>
+               </router-link>
              </div>
-             </router-link>
-           </div>
-           -->
+             -->
 
 </template>
 
