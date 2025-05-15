@@ -89,7 +89,6 @@
       </router-link>
      </div>
 
-
         <router-link to="/about" class="icon-nav-link">
              <div class="video-container">
                <h2>Alles zur FIFA Klub-WM: </h2>
