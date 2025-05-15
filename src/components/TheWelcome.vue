@@ -67,17 +67,17 @@
   <section class="home-image">
     <img src="/Home1.png" alt="Bild 1" class="home-image" />
   </section>
-
-    <router-link to="/calculator" class="icon-nav-link">
-    <div class="video-container">
-      <h2>Der Ball rollt!</h2>
-      <video controls autoplay muted loop width="100%" style="max-width: 2000px;">
-        <source src="/public/Video2.mp4" type="video/mp4" />
-      </video>
-    </div>
-    </router-link>
-
-    <!-- Flex Container für die Videos 1, 3 und 4 in einer Reihe -->
+  <!--
+      <router-link to="/calculator" class="icon-nav-link">
+      <div class="video-container">
+        <h2>Der Ball rollt!</h2>
+        <video controls autoplay muted loop width="100%" style="max-width: 2000px;">
+          <source src="/public/Video2.mp4" type="video/mp4" />
+        </video>
+      </div>
+      </router-link>
+  -->
+      <!-- Flex Container für die Videos 1, 3 und 4 in einer Reihe -->
      <div class="video-row">
       <router-link to="/clubs" class="icon-nav-link">
       <div class="video-container">
