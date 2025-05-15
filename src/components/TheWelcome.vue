@@ -67,7 +67,7 @@
   <section class="home-image">
     <img src="/Home1.png" alt="Bild 1" class="home-image" />
   </section>
-  <!--
+
     <router-link to="/calculator" class="icon-nav-link">
     <div class="video-container">
       <h2>Der Ball rollt!</h2>
@@ -76,7 +76,7 @@
       </video>
     </div>
     </router-link>
-  -->
+
     <!-- Flex Container für die Videos 1, 3 und 4 in einer Reihe -->
      <div class="video-row">
       <router-link to="/clubs" class="icon-nav-link">
