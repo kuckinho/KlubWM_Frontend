@@ -39,3 +39,4 @@ async function saveMatch(match) {
 <style scoped>
 /* Styles für die Komponente */
 </style>
+
