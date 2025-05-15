@@ -78,7 +78,7 @@
     </router-link>
   -->
     <!-- Flex Container für die Videos 1, 3 und 4 in einer Reihe -->
-  <!--   <div class="video-row">
+     <div class="video-row">
       <router-link to="/clubs" class="icon-nav-link">
       <div class="video-container">
         <h2>Die Vorfreude bei den Fans steigt:</h2>
@@ -87,26 +87,27 @@
         </video>
       </div>
       </router-link>
+     </div>
+       <!--
+             <router-link to="/about" class="icon-nav-link">
+             <div class="video-container">
+               <h2>Alles zur FIFA Klub-WM: </h2>
+               <video controls autoplay muted loop width="100%" style="max-width: 640px;">
+                 <source src="/public/Video3.mp4" type="video/mp4" />
+               </video>
+             </div>
+             </router-link>
 
-      <router-link to="/about" class="icon-nav-link">
-      <div class="video-container">
-        <h2>Alles zur FIFA Klub-WM: </h2>
-        <video controls autoplay muted loop width="100%" style="max-width: 640px;">
-          <source src="/public/Video3.mp4" type="video/mp4" />
-        </video>
-      </div>
-      </router-link>
-
-      <router-link to="/stadiums" class="icon-nav-link">
-      <div class="video-container">
-        <h2>Alles zur Stadionübersicht: </h2>
-        <video controls autoplay muted loop width="100%" style="max-width: 640px;">
-          <source src="/public/Video4.mp4" type="video/mp4" />
-        </video>
-      </div>
-      </router-link>
-    </div>
-    -->
+             <router-link to="/stadiums" class="icon-nav-link">
+             <div class="video-container">
+               <h2>Alles zur Stadionübersicht: </h2>
+               <video controls autoplay muted loop width="100%" style="max-width: 640px;">
+                 <source src="/public/Video4.mp4" type="video/mp4" />
+               </video>
+             </div>
+             </router-link>
+           </div>
+           -->
 
 </template>
 
