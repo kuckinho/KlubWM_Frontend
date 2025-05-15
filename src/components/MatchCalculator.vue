@@ -14,7 +14,6 @@
 import { ref, onMounted } from 'vue';
 import apiClient from '../axios.js';
 
-// Props für Titel
 defineProps(['title']);
 
 const matches = ref([]);
@@ -22,7 +21,6 @@ const matches = ref([]);
 onMounted(async () => {
   try {
     const response = await apiClient.get('/matches');
-    console.log("Fetched matches:", response.data);
     matches.value = response.data;
   } catch (error) {
     console.error("Error fetching matches:", error);
@@ -31,8 +29,7 @@ onMounted(async () => {
 
 async function saveMatch(match) {
   try {
-    const response = await apiClient.post('/matches', match);
-    console.log("Match result saved:", response.data);
+    await apiClient.post('/matches', match);
   } catch (error) {
     console.error("Error saving match:", error);
   }
@@ -40,5 +37,5 @@ async function saveMatch(match) {
 </script>
 
 <style scoped>
-/* Füge hier Stile für die Komponente hinzu */
+/* Styles für die Komponente */
 </style>
