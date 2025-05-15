@@ -98,7 +98,7 @@
                </video>
              </div>
              </router-link>
-  <!--
+
                <router-link to="/stadiums" class="icon-nav-link">
                <div class="video-container">
                  <h2>Alles zur Stadionübersicht: </h2>
@@ -107,8 +107,8 @@
                  </video>
                </div>
                </router-link>
-             </div>
-             -->
+
+
 
 </template>
 
