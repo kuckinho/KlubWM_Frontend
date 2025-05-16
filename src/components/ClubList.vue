@@ -76,7 +76,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-
+import apiClient from '../axios.js';
 
 // Props für Titel
 defineProps(['title']);
@@ -88,50 +88,16 @@ const filters = ref({
   country: '',
   league: ''
 });
-let currentId = 1;
 
-// Initialisierung Clubs mit Daten
-function initClubs() {
-  const initialClubs = [
-    { name: 'Manchester City', country: 'England', location: 'Manchester', league: 'Premier League', averageAge: 26.8, marketValue: '1,31 Mrd. €' },
-    { name: 'Real Madrid', country: 'Spanien', location: 'Madrid', league: 'La Liga', averageAge: 27.1, marketValue: '1,27 Mrd. €' },
-    { name: 'FC Paris Saint-Germain', country: 'Frankreich', location: 'Paris', league: 'Ligue 1', averageAge: 23.8, marketValue: '923,50 Mio. €' },
-    { name: 'FC Chelsea', country: 'England', location: 'London', league: 'Premier League', averageAge: 23.7, marketValue: '922,00 Mio. €' },
-    { name: 'FC Bayern München', country: 'Deutschland', location: 'München', league: 'Bundesliga', averageAge: 27.8, marketValue: '859,00 Mio. €' },
-    { name: 'Inter Mailand', country: 'Italien', location: 'Mailand', league: 'Serie A', averageAge: 29.5, marketValue: '663,80 Mio. €' },
-    { name: 'Juventus Turin', country: 'Italien', location: 'Turin', league: 'Serie A', averageAge: 25.5, marketValue: '623,20 Mio. €' },
-    { name: 'Atlético Madrid', country: 'Spanien', location: 'Madrid', league: 'La Liga', averageAge: 29.4, marketValue: '515,80 Mio. €' },
-    { name: 'Borussia Dortmund', country: 'Deutschland', location: 'Dortmund', league: 'Bundesliga', averageAge: 25.3, marketValue: '436,40 Mio. €' },
-    { name: 'Benfica Lissabon', country: 'Portugal', location: 'Lissabon', league: 'Primeira Liga', averageAge: 25.4, marketValue: '362,50 Mio. €' },
-    { name: 'FC Porto', country: 'Portugal', location: 'Porto', league: 'Primeira Liga', averageAge: 25.3, marketValue: '312,70 Mio. €' },
-    { name: 'SE Palmeiras São Paulo', country: 'Brasilien', location: 'São Paulo', league: 'Brasileirão', averageAge: 25.9, marketValue: '238,75 Mio. €' },
-    { name: 'Flamengo Rio de Janeiro', country: 'Brasilien', location: 'Rio de Janeiro', league: 'Brasileirão', averageAge: 27.1, marketValue: '219,15 Mio. €' },
-    { name: 'Al-Hilal SFC', country: 'Saudi-Arabien', location: 'Riad', league: 'Saudi Professional League', averageAge: 28.2, marketValue: '180,00 Mio. €' },
-    { name: 'FC Red Bull Salzburg', country: 'Österreich', location: 'Salzburg', league: 'Österreichische Bundesliga', averageAge: 22.9, marketValue: '149,30 Mio. €' },
-    { name: 'Botafogo Rio de Janeiro', country: 'Brasilien', location: 'Rio de Janeiro', league: 'Brasileirão', averageAge: 26.0, marketValue: '135,95 Mio. €' },
-    { name: 'CA River Plate', country: 'Argentinien', location: 'Buenos Aires', league: 'Argentinische Primera División', averageAge: 29.6, marketValue: '103,65 Mio. €' },
-    { name: 'CA Boca Juniors', country: 'Argentinien', location: 'Buenos Aires', league: 'Argentinische Primera División', averageAge: 28.1, marketValue: '83,63 Mio. €' },
-    { name: 'Fluminense Rio de Janeiro', country: 'Brasilien', location: 'Rio de Janeiro', league: 'Brasileirão', averageAge: 28.3, marketValue: '73,60 Mio. €' },
-    { name: 'CF Monterrey', country: 'Mexiko', location: 'Monterrey', league: 'Liga MX', averageAge: 28.5, marketValue: '73,20 Mio. €' },
-    { name: 'Inter Miami CF', country: 'USA', location: 'Miami', league: 'Major League Soccer', averageAge: 26.0, marketValue: '69,15 Mio. €' },
-    { name: 'Seattle Sounders FC', country: 'USA', location: 'Seattle', league: 'Major League Soccer', averageAge: 26.9, marketValue: '54,35 Mio. €' },
-    { name: 'CF Pachuca', country: 'Mexiko', location: 'Pachuca', league: 'Liga MX', averageAge: 25.8, marketValue: '51,75 Mio. €' },
-    { name: 'Al-Ain FC', country: 'Vereinigte Arabische Emirate', location: 'Al-Ain', league: 'UAE Pro League', averageAge: 25.8, marketValue: '44,84 Mio. €' },
-    { name: 'Mamelodi Sundowns FC', country: 'Südafrika', location: 'Mamelodi', league: 'DSTV Premiership', averageAge: 27.7, marketValue: '35,48 Mio. €' },
-    { name: 'Al Ahly FC', country: 'Ägypten', location: 'Kairo', league: 'Egyptian Premier League', averageAge: 27.4, marketValue: '33,90 Mio. €' },
-    { name: 'Urawa Red Diamonds', country: 'Japan', location: 'Saitama', league: 'J1 League', averageAge: 27.3, marketValue: '20,53 Mio. €' },
-    { name: 'Esperance Tunis', country: 'Tunesien', location: 'Tunis', league: 'Ligue Professionnelle 1', averageAge: 25.6, marketValue: '19,85 Mio. €' },
-    { name: 'Wydad Casablanca', country: 'Marokko', location: 'Casablanca', league: 'Botola Pro', averageAge: 26.1, marketValue: '16,45 Mio. €' },
-    { name: 'Ulsan HD FC', country: 'Südkorea', location: 'Ulsan', league: 'K League 1', averageAge: 27.2, marketValue: '16,30 Mio. €' },
-    { name: 'Auckland City FC', country: 'Neuseeland', location: 'Auckland', league: 'New Zealand Football Championship', averageAge: 26.7, marketValue: '5,32 Mio. €' },
-  ];
-
-  initialClubs.forEach(club => {
-    clubs.value.push({ ...club, id: currentId++ });
-  });
-}
-
-
+// Daten vom Backend laden
+onMounted(async () => {
+  try {
+    const response = await apiClient.get('/teams');
+    clubs.value = response.data;
+  } catch (error) {
+    console.error("Error fetching clubs:", error);
+  }
+});
 
 // Clubliste filtern basierend auf Suchbegriff und festgelegten Filtern
 const filteredClubs = computed(() => {
@@ -151,12 +117,8 @@ function getUniqueValues(column) {
   const values = clubs.value.map(club => club[column]);
   return [...new Set(values)];
 }
-
-// Initialisierung Club-Daten beim Laden der Komponente
-onMounted(() => {
-  initClubs();
-});
 </script>
+
 
 <style scoped>
 /* Flex-Container für Button und Filter */
