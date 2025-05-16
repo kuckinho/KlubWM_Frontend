@@ -8,9 +8,7 @@
           <RouterLink to="/login">Login</RouterLink>
           <RouterLink to="/calculator">Tabellenrechner</RouterLink>
           <RouterLink to="/timer">Countdown</RouterLink>
-          <RouterLink to="/pictures">Galerie</RouterLink>
           <RouterLink to="/about">KlubWM</RouterLink>
-          <RouterLink to="/tournament">Turnierbaum</RouterLink>
           <RouterLink to="/clubs">Teilnehmer</RouterLink>
           <RouterLink to="/stadiums">Spielorte</RouterLink>
           <RouterLink to="/champions">Champions</RouterLink>

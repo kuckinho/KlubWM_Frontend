@@ -4,8 +4,6 @@ import AboutView from '../views/AboutView.vue'
 import ClubsView from '../views/ClubsView.vue'
 import StadiumsView from '../views/StadiumsView.vue'
 import TimerView from '../views/TimerView.vue'
-import TournamentView from '../views/TournamentView.vue'
-import PicturesView from '../views/PicturesView.vue'
 import LoginView from '../views/LoginView.vue'
 import CalculatorView from '../views/CalculatorView.vue'
 import ChampionsView from '../views/ChampionsView.vue'
@@ -24,11 +22,6 @@ const router = createRouter({
       component: AboutView,
     },
     {
-      path: '/tournament',
-      name: 'tournament',
-      component: TournamentView,
-    },
-    {
       path: '/clubs',
       name: 'clubs',
       component: ClubsView,
@@ -42,11 +35,6 @@ const router = createRouter({
       path: '/timer',
       name: 'timer',
       component: TimerView,
-    },
-    {
-      path: '/pictures',
-      name: 'pictures',
-      component: PicturesView,
     },
     {
       path: '/login',

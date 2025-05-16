@@ -4,7 +4,7 @@
 
   <div class="timeline-and-records-container">
     <!-- Timeline-Abschnitt -->
-    <h2>Übersicht der bisherigen Champions</h2>
+    <h2>Bisherige Champions</h2>
     <div class="timeline-container">
       <div class="timeline-scroll-area">
         <div class="timeline-item" v-for="event in timelineEvents" :key="event.year">
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Rekordsieger-Abschnitt -->
-    <h2>Übersicht der Rekord-Champions</h2>
+    <h2>Aktuelle Rekord-Champions</h2>
     <div class="records-container">
       <div class="records-scroll-area">
         <div class="timeline-item" v-for="team in rankedTeams" :key="team.team">
@@ -35,14 +35,48 @@
       </div>
     </div>
   </div>
+
+  <h2>Champions-Galerie</h2>
+  <swiper
+    :modules="[Pagination, Navigation, Autoplay]"
+    navigation
+    pagination
+    :autoplay="{ delay: 4000, disableOnInteraction: false }"
+    class="mySwiper"
+  >
+    <swiper-slide v-for="(image, index) in images" :key="index">
+      <img :src="image" :alt="'Gallery image ' + (index + 1)" class="gallery-image" />
+    </swiper-slide>
+  </swiper>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import { defineProps } from 'vue';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // Props für Titel
-defineProps(['title'])
+defineProps(['title']);
+
+// Array mit Bildpfaden
+const images = [
+  '/Gallery1.png',
+  '/Gallery2.jpg',
+  '/Gallery3.png',
+  '/Gallery4.jpeg',
+  '/Gallery5.png',
+  '/Gallery6.jpeg',
+  '/Gallery7.jpeg',
+  '/Gallery8.jpeg',
+  '/Gallery9.jpeg',
+  '/Gallery10.jpg',
+  '/Gallery11.jpeg',
+  '/Gallery12.jpeg'
+];
 
 // Verwende `ref()` für reaktive Variablen
 const timelineEvents = ref([
@@ -139,6 +173,7 @@ h2 {
   height: 100%;
   width: 100%;
   max-width: 100vw;
+  margin-bottom: 30px;
 }
 
 .timeline-container,
@@ -198,4 +233,20 @@ h2 {
   margin: 5px 0;
   text-align: left;
 }
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.mySwiper {
+  width: 100%;
+  max-width: 80vw;
+  height: auto;
+  color: #cfc;
+}
+
 </style>

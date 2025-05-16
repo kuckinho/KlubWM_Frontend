@@ -1,8 +1,7 @@
 <template>
   <h3>{{ title }}</h3>
-
   <!-- Buttons für das Öffnen der PDF-Dokumente -->
-  <div class="button-container">
+    <div class="button-wrapper">
     <button @click="openPDF('Regulations.pdf')" class="open-button">
       Ansehen: Turnier-Regularien
     </button>
@@ -15,7 +14,10 @@
     <button @click="openPDF('Compliance.pdf')"  class="open-button">
       Ansehen: Auslosungsverfahren
     </button>
-  </div>
+    <button @click="openPDF('Compliance.pdf')"  class="open-button">
+      Ansehen: Auslosungsverfahren
+    </button>
+    </div>
 
   <div class="container">
     <!-- Linkes Bild -->
@@ -80,14 +82,34 @@
           <li>Im Zuge der Reform wurde 2024 zusätzlich der FIFA-Interkontinental-Pokal eingeführt. Dieser Wettbewerb mit begrenzter Teilnehmerzahl ersetzt das bisherige jährliche Klub-WM-Format und soll weiterhin eine jährliche internationale Plattform für Vereinsfußball bieten.</li>
         </ul>
       </section>
+
+      <h1>Turnierbaum und Spielplan </h1>
+      <div class="button-wrapper">
+        <a href="https://www.fifa.com/de/tournaments/mens/club-world-cup/usa-2025/scores-and-fixtures"
+           target="_blank"
+           class="custom-button">
+          Zur FIFA-Spielplanübersicht
+        </a>
+
+        <a href="https://www.fifa.com/de/tournaments/mens/club-world-cup/usa-2025/standings"
+           target="_blank"
+           class="custom-button">
+          Zur FIFA-Tabellenübersicht
+        </a>
+      </div>
+
+      <section class="image">
+        <img src="/TournamentTreeGroups.png" alt="Bild 1" class="gallery-image" />
+      </section>
+
     </div>
 
     <!-- Rechtes Bild -->
     <div class="image-container-r1">
       <img src="/CupTrophy.png" alt="Cup Trophy" />
     </div>
-
   </div>
+
 </template>
 
 <script setup>
@@ -148,15 +170,6 @@ ul {
   margin-left: 20px;
 }
 
-/* Button Styles */
-.button-container {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
 .open-button {
   display: flex;
   padding: 9px 15px;
@@ -170,6 +183,33 @@ ul {
 }
 
 .open-button:hover {
+  background-color: #003366;
+  color: #39FF14;
+  font-weight: bold;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Formatierung Button-ähnlicher Link */
+.custom-button {
+  display: flex;
+  padding: 6px 15px;
+  border-radius: 50px;
+  width: 275px;
+  color: #cfc;
+  background-color: #003366;
+  transition: background-color 0.3s;
+  justify-content: center;
+  font-size: 15px;
+  margin-bottom: 30px;
+}
+
+.custom-button:hover {
   background-color: #003366;
   color: #39FF14;
   font-weight: bold;

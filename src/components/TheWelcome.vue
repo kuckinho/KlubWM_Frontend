@@ -23,24 +23,12 @@
           <p>Zur Countdown-Funktion</p>
         </div>
       </router-link>
-      <router-link to="/pictures" class="icon-nav-link">
-        <div class="icon-nav-item">
-          <img src="/Home_PicturesGallery.png" alt="Pictures Icon" class="nav-icon" />
-          <p>Zur HTW-Ehrengalerie</p>
-        </div>
-      </router-link>
     </div>
     <div class="icon-nav-row">
       <router-link to="/about" class="icon-nav-link">
         <div class="icon-nav-item">
           <img src="/Home_About.png" alt="About Icon" class="nav-icon" />
           <p>Informationen zur Klub WM</p>
-        </div>
-      </router-link>
-      <router-link to="/tournament" class="icon-nav-link">
-        <div class="icon-nav-item">
-          <img src="/Home_Turnierbaum.png" alt="Tournament Icon" class="nav-icon" />
-          <p>Informationen zur Turnierlogik</p>
         </div>
       </router-link>
       <router-link to="/clubs" class="icon-nav-link">
@@ -67,16 +55,7 @@
   <section class="home-image">
     <img src="/Home1.png" alt="Bild 1" class="home-image" />
   </section>
-  <!--
-      <router-link to="/calculator" class="icon-nav-link">
-      <div class="video-container">
-        <h2>Der Ball rollt!</h2>
-        <video controls autoplay muted loop width="100%" style="max-width: 2000px;">
-          <source src="/public/Video2.mp4" type="video/mp4" />
-        </video>
-      </div>
-      </router-link>
-  -->
+
       <!-- Flex Container für die Videos 1, 3 und 4 in einer Reihe -->
      <div class="video-row">
       <router-link to="/clubs" class="icon-nav-link">
@@ -87,7 +66,7 @@
         </video>
       </div>
       </router-link>
-     </div>
+
 
         <router-link to="/about" class="icon-nav-link">
              <div class="video-container">
@@ -106,7 +85,7 @@
                  </video>
                </div>
                </router-link>
-
+     </div>
 
 
 </template>
