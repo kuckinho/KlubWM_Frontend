@@ -68,8 +68,8 @@
       <td>{{ club.country }}</td>
       <td>{{ club.location }}</td>
       <td>{{ club.league }}</td>
-      <td>{{ club.averageAge }}</td>
-      <td>{{ club.marketValue }}</td>
+      <td>{{ club.average_age }}</td>
+      <td>{{ club.market_value }}</td>
     </tr>
   </table>
 </template>
@@ -93,6 +93,7 @@ const filters = ref({
 onMounted(async () => {
   try {
     const response = await apiClient.get('/teams');
+    console.log(response.data); // Überprüft, was wirklich vom Backend empfangen wird
     clubs.value = response.data;
   } catch (error) {
     console.error("Error fetching clubs:", error);
