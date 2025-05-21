@@ -68,9 +68,8 @@
       <td>{{ club.country }}</td>
       <td>{{ club.location }}</td>
       <td>{{ club.league }}</td>
-      <td>{{ club?.averageAge?.toFixed(1) ?? 'Keine Angabe' }}</td>
-      <td>{{ club?.marketValue?.toFixed(1) ?? 'Keine Angabe' }}
-      </td>
+      <td>{{ club.averageAge}}</td>
+      <td>{{ club.marketValue}}</td>
     </tr>
   </table>
 </template>
