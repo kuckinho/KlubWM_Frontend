@@ -7,9 +7,9 @@
       <input type="number" v-model.number="match.visitorScore" placeholder="Visitor" min="0" />
       <button @click="generateRandomResult(match)">Zufälliges Ergebnis</button>
     </li>
-    <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
-    <button @click="resetAllMatches">Alle Ergebnisse auf 0 setzen</button>
   </ul>
+  <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
+  <button @click="resetAllMatches">Alle Ergebnisse auf 0 setzen</button>
 </template>
 
 <script setup>
