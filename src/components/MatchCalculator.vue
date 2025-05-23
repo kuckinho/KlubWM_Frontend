@@ -1,5 +1,28 @@
 <template>
   <h3>{{ title }}</h3>
+
+  <!-- Anzeige der Gruppen -->
+  <div v-if="groups.length">
+    <ul>
+      <li v-for="group in groups" :key="group.id">
+        <strong>{{ group.name }}</strong>
+        <ul>
+          <li v-for="team in group.teams" :key="team.id">
+            {{ team.team.name }} gespielt: {{ team.matches }},
+            Siege: {{ team.wins }},
+            Unentschieden: {{ team.draws }},
+            Niederlagen: {{ team.losses }},
+            Tordifferenz: {{ team.goalDifference }},
+            Punkte: {{ team.points }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Leerzeile zwischen Gruppen und Matches -->
+  <br>
+
   <ul>
     <li v-for="match in matches" :key="match.id">
       {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
@@ -19,13 +42,19 @@ import apiClient from '../axios.js';
 defineProps(['title']);
 
 const matches = ref([]);
+const groups = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await apiClient.get('/matches');
-    matches.value = response.data;
+    // Abrufen der Matches
+    const matchesResponse = await apiClient.get('/matches');
+    matches.value = matchesResponse.data;
+
+    // Abrufen der Gruppen
+    const groupsResponse = await apiClient.get('/groups');
+    groups.value = groupsResponse.data;
   } catch (error) {
-    console.error("Error fetching matches:", error);
+    console.error("Error fetching data:", error);
   }
 });
 
@@ -64,4 +93,3 @@ function generateRandomScore() {
 <style scoped>
 /* Styles für die Komponente */
 </style>
-
