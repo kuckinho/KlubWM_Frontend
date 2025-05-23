@@ -20,6 +20,8 @@
     </ul>
   </div>
 
+  <pre>{{ groups }}</pre> <!-- Debug-Ausgabe der Gruppen -->
+
   <!-- Leerzeile zwischen Gruppen und Matches -->
   <br>
 
