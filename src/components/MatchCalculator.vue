@@ -110,6 +110,7 @@ function generateRandomScore() {
 .group-container {
   display: flex;
   flex-wrap: wrap; /* Ermöglicht Umbruch in zwei Zeilen */
+  justify-content: center; /* Zentriert die Gruppen in einer Reihe */
   gap: 50px; /* Abstand zwischen den Gruppen */
   margin-top: 20px;
 }
@@ -118,6 +119,7 @@ function generateRandomScore() {
 .group {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 23%; /* Breite, um vier Gruppen pro Zeile zu ermöglichen */
 }
 
