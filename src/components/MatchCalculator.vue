@@ -52,9 +52,10 @@ onMounted(async () => {
     const matchesResponse = await apiClient.get('/matches');
     matches.value = matchesResponse.data;
 
-    // Abrufen der Gruppen
-    const groupsResponse = await apiClient.get('/groups');
-    groups.value = groupsResponse.data;
+    if (matches.value.length > 0) { // Sicherstellen, dass Matches geladen sind, bevor Gruppen geladen werden
+      const groupsResponse = await apiClient.get('/groups');
+      groups.value = groupsResponse.data;
+    }
   } catch (error) {
     console.error("Error fetching data:", error);
   }
