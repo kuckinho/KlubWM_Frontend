@@ -1,10 +1,11 @@
+
 <template>
   <h3>{{ title }}</h3>
 
-  <!-- Anzeige der Gruppen -->
-  <div v-if="groups.length">
-    <div v-for="group in groups" :key="group.id">
-      <h3>{{ group.name }}</h3>
+  <!-- Anzeige der Gruppen mit flexibler Anordnung -->
+  <div v-if="groups.length" class="group-container">
+    <div v-for="group in groups" :key="group.id" class="group">
+      <h2>{{ group.name }}</h2>
       <table>
         <thead>
         <tr>
@@ -34,9 +35,6 @@
     </div>
   </div>
 
-  <!-- Debug-Ausgabe der Gruppen -->
-  <pre>{{ groups }}</pre>
-
   <!-- Leerzeile zwischen Gruppen und Matches -->
   <br>
 
@@ -63,7 +61,6 @@ const groups = ref([]);
 
 onMounted(async () => {
   try {
-    // Abrufen der Matches
     const matchesResponse = await apiClient.get('/matches');
     matches.value = matchesResponse.data;
 
@@ -99,15 +96,46 @@ function generateRandomResult(match) {
 function generateRandomScore() {
   const random = Math.random();
   if (random < 0.5) {
-    return Math.floor(random * 3); // Wahrscheinlichkeit für 0-2
+    return Math.floor(random * 3);
   } else if (random < 0.8) {
-    return Math.floor(random * 2) + 3; // Wahrscheinlichkeit für 3-4
+    return Math.floor(random * 2) + 3;
   } else {
-    return Math.floor(random * 3) + 5; // Wahrscheinlichkeit für 5-7
+    return Math.floor(random * 3) + 5;
   }
 }
 </script>
 
 <style scoped>
-/* Styles für die Komponente */
+/* Flex Container für die Gruppenansicht */
+.group-container {
+  display: flex;
+  flex-wrap: wrap; /* Ermöglicht Umbruch in zwei Zeilen */
+  justify-content: center; /* Zentriert die Gruppen in einer Reihe */
+  gap: 50px; /* Abstand zwischen den Gruppen */
+  margin-top: 20px;
+}
+
+/* Stilisierung jeder einzelnen Gruppe */
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23%; /* Breite, um vier Gruppen pro Zeile zu ermöglichen */
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  text-align: left;
+  background-color: #f2f2f2;
+}
 </style>

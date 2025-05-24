@@ -123,6 +123,10 @@ function openPDF(url) {
 </script>
 
 <style scoped>
+
+h3 {
+  margin-bottom: 30px;
+}
 .container {
   display: flex;
   justify-content: space-between;

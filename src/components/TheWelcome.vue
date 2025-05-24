@@ -17,14 +17,14 @@
           <p>Zur Countdown-Funktion</p>
         </div>
       </router-link>
-    </div>
-    <div class="icon-nav-row">
       <router-link to="/about" class="icon-nav-link">
         <div class="icon-nav-item">
           <img src="/Home_About.png" alt="About Icon" class="nav-icon" />
-          <p>Informationen zur Klub WM</p>
+          <p>Alles zur FIFA Klub WM</p>
         </div>
       </router-link>
+    </div>
+    <div class="icon-nav-row">
       <router-link to="/clubs" class="icon-nav-link">
         <div class="icon-nav-item">
           <img src="/Home_Clubs.png" alt="Clubs Icon" class="nav-icon" />
@@ -112,7 +112,7 @@ h2 {
   margin-top: 30px;
 }
 
-/* Jede Reihe enthält vier Icons */
+/* Jede Reihe enthält drei Icons */
 .icon-nav-row {
   display: flex;
   justify-content: center;
