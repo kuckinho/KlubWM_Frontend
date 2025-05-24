@@ -14,6 +14,7 @@
           <th>U</th>
           <th>N</th>
           <th>TD</th>
+          <th>GT</th>
           <th>Punkte</th>
         </tr>
         </thead>
@@ -25,6 +26,7 @@
           <td>{{ team.draws }}</td>
           <td>{{ team.losses }}</td>
           <td>{{ team.goalDifference }}</td>
+          <td>{{ team.goalScored }}</td>
           <td>{{ team.points }}</td>
         </tr>
         </tbody>
