@@ -3,24 +3,37 @@
 
   <!-- Anzeige der Gruppen -->
   <div v-if="groups.length">
-    <ul>
-      <li v-for="group in groups" :key="group.id">
-        <strong>{{ group.name }}</strong>
-        <ul>
-          <li v-for="team in group.teams" :key="team.id">
-            {{ team.team.name }} gespielt: {{ team.matches }},
-            Siege: {{ team.wins }},
-            Unentschieden: {{ team.draws }},
-            Niederlagen: {{ team.losses }},
-            Tordifferenz: {{ team.goalDifference }},
-            Punkte: {{ team.points }}
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <div v-for="group in groups" :key="group.id">
+      <h3>{{ group.name }}</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>Mannschaft</th>
+          <th>Spiele</th>
+          <th>S</th>
+          <th>U</th>
+          <th>N</th>
+          <th>TD</th>
+          <th>Punkte</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="team in group.teams" :key="team.id">
+          <td>{{ team.team.name }}</td>
+          <td>{{ team.matches }}</td>
+          <td>{{ team.wins }}</td>
+          <td>{{ team.draws }}</td>
+          <td>{{ team.losses }}</td>
+          <td>{{ team.goalDifference }}</td>
+          <td>{{ team.points }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <pre>{{ groups }}</pre> <!-- Debug-Ausgabe der Gruppen -->
+  <!-- Debug-Ausgabe der Gruppen -->
+  <pre>{{ groups }}</pre>
 
   <!-- Leerzeile zwischen Gruppen und Matches -->
   <br>
@@ -52,7 +65,7 @@ onMounted(async () => {
     const matchesResponse = await apiClient.get('/matches');
     matches.value = matchesResponse.data;
 
-    if (matches.value.length > 0) { // Sicherstellen, dass Matches geladen sind, bevor Gruppen geladen werden
+    if (matches.value.length > 0) {
       const groupsResponse = await apiClient.get('/groups');
       groups.value = groupsResponse.data;
     }
@@ -84,11 +97,11 @@ function generateRandomResult(match) {
 function generateRandomScore() {
   const random = Math.random();
   if (random < 0.5) {
-    return Math.floor(Math.random() * 3); // Wahrscheinlichkeit für 0-2
+    return Math.floor(random * 3); // Wahrscheinlichkeit für 0-2
   } else if (random < 0.8) {
-    return Math.floor(Math.random() * 2) + 3; // Wahrscheinlichkeit für 3-4
+    return Math.floor(random * 2) + 3; // Wahrscheinlichkeit für 3-4
   } else {
-    return Math.floor(Math.random() * 3) + 5; // Wahrscheinlichkeit für 5-7
+    return Math.floor(random * 3) + 5; // Wahrscheinlichkeit für 5-7
   }
 }
 </script>
