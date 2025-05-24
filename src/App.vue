@@ -5,7 +5,6 @@
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/login">Login</RouterLink>
           <RouterLink to="/calculator">Tabellenrechner</RouterLink>
           <RouterLink to="/timer">Countdown</RouterLink>
           <RouterLink to="/about">KlubWM</RouterLink>

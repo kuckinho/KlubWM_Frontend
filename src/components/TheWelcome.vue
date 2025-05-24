@@ -5,12 +5,6 @@
   <!-- Flex Container für Icon-basierte Navigation -->
   <div class="icon-nav-container">
     <div class="icon-nav-row">
-      <router-link to="/login" class="icon-nav-link">
-        <div class="icon-nav-item">
-          <img src="/Home_Login.png" alt="Home Icon" class="nav-icon" />
-          <p>Zum Login</p>
-        </div>
-      </router-link>
       <router-link to="/calculator" class="icon-nav-link">
         <div class="icon-nav-item">
           <img src="/Home_Tabellenrechner.png" alt="Home Icon" class="nav-icon" />
