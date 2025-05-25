@@ -42,8 +42,8 @@
   <h2>Ergebnisrechner</h2>
   <br>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
-  <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
   <br>
+  <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
 
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
@@ -122,11 +122,11 @@ async function saveAllMatches() {
 function resetAll() {
   // Reset matches to initial state
   matches.value.forEach(match => {
-    match.homeScore = 0;
-    match.visitorScore = 0;
+    match.homeScore = null; // Zurücksetzen der Scores
+    match.visitorScore = null;
   });
 
-  // Reload groups to reset their state
+  // Reset the teams within the groups to their initial state
   groups.value.forEach(group => {
     group.teams.forEach(team => {
       team.matches = 0;
@@ -139,8 +139,7 @@ function resetAll() {
     });
   });
 
-  // Reload the groups to clear sorting and highlighting
-  loadGroups();
+  // Keine API-Anfragen notwendig, Zustand direkt zurückgesetzt
 }
 
 function generateRandomResult(match) {
@@ -262,7 +261,7 @@ button:hover {
 
 table {
   border-collapse: collapse;
-  width: 800px;
+  width: 600px;
   margin-top: 10px;
 }
 
@@ -270,13 +269,16 @@ th, td {
   border: 1px solid #ccffcc;
   padding: 8px;
   white-space: nowrap;
-  width: 100px; /* Feste Breite für die Zellen */
 }
 
 th {
   text-align: left;
   background-color: #003366;
   font-weight: bold;
+}
+
+th, td:nth-child(n+2) { /* Gilt für alle Spalten außer die erste */
+  width: 12%; /* Passe den Wert an das Layout an */
 }
 
 h2 {
@@ -291,10 +293,10 @@ h1 {
 }
 
 p {
+  border: 1px solid #ccffcc;
   text-align: center;
   margin-top: 5px;
   margin-bottom: 5px;
-  color: #ccffcc;
 }
 
 .winner-team {
