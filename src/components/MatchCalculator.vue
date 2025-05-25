@@ -37,6 +37,10 @@
   <!-- Leerzeile zwischen Gruppen und Matches -->
   <br>
 
+  <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
+  <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
+  <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
+
   <ul>
     <li v-for="match in matches" :key="match.id">
       {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
@@ -45,10 +49,6 @@
       <button @click="generateRandomResult(match)">Zufälliges Ergebnis</button>
     </li>
   </ul>
-
-  <button @click="generateRandomResultsForAll">Alle Ergebnisse zufällig generieren</button>
-  <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
-  <button @click="resetAllMatches">Alle Ergebnisse auf 0 setzen</button>
 </template>
 
 <script setup>
@@ -142,6 +142,15 @@ function sortedTeams(teams) {
 </script>
 
 <style scoped>
+button {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 30px;
+  justify-content: center;
+  font-size: 20px;
+}
+
 /* Flex Container für die Gruppenansicht */
 .group-container {
   display: flex;
