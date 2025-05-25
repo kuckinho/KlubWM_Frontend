@@ -46,8 +46,7 @@
     </li>
   </ul>
 
-  <!-- Neuer Button zum Generieren zufälliger Ergebnisse für alle Matches -->
-  <button @click="generateRandomResultsForAll">Zufällige Ergebnisse generieren</button>
+  <button @click="generateRandomResultsForAll">Alle Ergebnisse zufällig generieren</button>
   <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
   <button @click="resetAllMatches">Alle Ergebnisse auf 0 setzen</button>
 </template>
@@ -62,18 +61,27 @@ const matches = ref([]);
 const groups = ref([]);
 
 onMounted(async () => {
+  await loadMatches();
+  await loadGroups();
+});
+
+async function loadMatches() {
   try {
     const matchesResponse = await apiClient.get('/matches');
     matches.value = matchesResponse.data;
-
-    if (matches.value.length > 0) {
-      const groupsResponse = await apiClient.get('/groups');
-      groups.value = groupsResponse.data;
-    }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching matches:", error);
   }
-});
+}
+
+async function loadGroups() {
+  try {
+    const groupsResponse = await apiClient.get('/groups');
+    groups.value = groupsResponse.data;
+  } catch (error) {
+    console.error("Error fetching groups:", error);
+  }
+}
 
 async function saveAllMatches() {
   try {
@@ -84,6 +92,9 @@ async function saveAllMatches() {
     }));
 
     await apiClient.put('/matches/batch', matchUpdates);
+
+    // Nach dem Speichern die Gruppen neu laden
+    await loadGroups();
 
   } catch (error) {
     console.error("Error saving matches:", error);
