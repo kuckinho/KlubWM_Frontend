@@ -209,10 +209,39 @@ function generateRandomResultsForAll() {
 }
 
 function generateRandomScore() {
-  // Erstelle ein Array, das die weniger häufigen höheren Werte seltener einbezieht
-  const options = [0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 6, 7];
-  // Wähle einen zufälligen Wert aus diesem Array
-  return options[Math.floor(Math.random() * options.length)];
+  // Definiere die Wahrscheinlichkeiten für jede Zahl
+  const probabilities = {
+    0: 0.25,
+    1: 0.2,
+    2: 0.2,
+    3: 0.15,
+    4: 0.1,
+    5: 0.05,
+    6: 0.025,
+    7: 0.025,
+    8: 0.015,
+    9: 0.015
+  };
+
+  // Kumulieren der Wahrscheinlichkeiten
+  const cumulativeProbabilities = [];
+  let sum = 0;
+  for (const score in probabilities) {
+    sum += probabilities[score];
+    cumulativeProbabilities.push({ score: parseInt(score), cumulative: sum });
+  }
+
+  // Generiere eine zufällige Zahl zwischen 0 und 1
+  const rand = Math.random();
+
+  // Finde die entsprechende Zahl basierend auf der kumulierten Wahrscheinlichkeit
+  for (const entry of cumulativeProbabilities) {
+    if (rand < entry.cumulative) {
+      return entry.score;
+    }
+  }
+  // Ein Rückfallwert, falls alle kumulierten Berechnungen fehlschlagen (sollte nie erreicht werden)
+  return 0;
 }
 
 function sortedTeams(teams) {
