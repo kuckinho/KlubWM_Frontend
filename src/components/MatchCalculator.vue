@@ -50,7 +50,7 @@
   <ul>
     <li v-for="match in matches" :key="match.id" class="match-item">
       <div class="match-info">
-        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
+        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} ({{ match.stadium.name }}):
       </div>
       <div class="match-inputs">
         <select v-model.number="match.homeScore" class="score-input">
@@ -214,11 +214,12 @@ button:hover {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  gap: 5px;
+  flex-flow: row nowrap;
 }
 
 .match-info {
-  flex: 2;
+  flex: 1;
+  width: 200px; /* Feste Breite für die Team- und Stadioninformationen */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -226,12 +227,14 @@ button:hover {
 
 .match-inputs {
   flex: 1;
+  width: 100px; /* Feste Breite für die Ergebniseingabe */
   display: flex;
   justify-content: center;
 }
 
 .match-buttons {
   flex: 1;
+  width: 150px; /* Feste Breite für die Button-Spalte */
   display: flex;
   justify-content: center;
 }
@@ -279,16 +282,17 @@ th, td:nth-child(n+2) {
 }
 
 .winner-team {
-  color: green;
+  color: #B8860B;
+  font-weight: bold;
 }
 
 .runner-up-team {
-  color: gold;
+  color: #B8860B;
 }
 
 h2 {
-  margin-top: 15px;
-  margin-bottom: 5px;
+  margin-top: 25px;
+  margin-bottom: 15px;
 }
 
 h1 {
