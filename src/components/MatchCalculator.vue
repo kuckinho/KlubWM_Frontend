@@ -275,6 +275,10 @@ th {
   font-weight: bold;
 }
 
+th, td:nth-child(n+2) {
+  width: 70px;
+}
+
 .winner-team {
   color: gold;
 }
