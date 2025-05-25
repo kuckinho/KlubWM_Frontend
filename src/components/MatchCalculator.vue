@@ -75,7 +75,14 @@ onMounted(async () => {
 
 async function saveAllMatches() {
   try {
-    await Promise.all(matches.value.map(match => apiClient.put(`/matches/${match.id}`, match)));
+    const matchUpdates = matches.value.map(match => ({
+      id: match.id,
+      homeScore: match.homeScore,
+      visitorScore: match.visitorScore,
+    }));
+
+    await apiClient.put('/matches/batch', matchUpdates);
+
   } catch (error) {
     console.error("Error saving matches:", error);
   }
