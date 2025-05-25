@@ -163,16 +163,23 @@ function updateGroupStats() {
 
 async function saveAllMatches() {
   try {
-    const matchUpdates = matches.value.map(match => ({
-      id: match.id,
-      homeScore: match.homeScore,
-      visitorScore: match.visitorScore,
-    }));
+    // Filter nur solche Spiele, bei denen beide Scores nicht null sind
+    const matchUpdates = matches.value
+      .filter(match => match.homeScore !== null && match.visitorScore !== null)
+      .map(match => ({
+        id: match.id,
+        homeScore: match.homeScore,
+        visitorScore: match.visitorScore,
+      }));
 
-    await apiClient.put('/matches/batch', matchUpdates);
-
-    // Nach dem Speichern die Gruppen neu laden
-    await loadGroups();
+    // Nur dann speichern, wenn es mindestens ein Spiel mit ausgewählten Ergebnissen gibt
+    if (matchUpdates.length > 0) {
+      await apiClient.put('/matches/batch', matchUpdates);
+      // Aktualisiere die Gruppen nach dem Speichern, um alle korrekten Daten widerzuspiegeln
+      await loadGroups();
+    } else {
+      console.log("Keine gültigen Ergebnisse zum Speichern.");
+    }
 
   } catch (error) {
     console.error("Error saving matches:", error);
@@ -202,7 +209,9 @@ function generateRandomResultsForAll() {
 }
 
 function generateRandomScore() {
-  const options = [...Array(10).keys()];  // 0 bis 9
+  // Erstelle ein Array, das die weniger häufigen höheren Werte seltener einbezieht
+  const options = [0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 6, 7, 8, 9];
+  // Wähle einen zufälligen Wert aus diesem Array
   return options[Math.floor(Math.random() * options.length)];
 }
 
