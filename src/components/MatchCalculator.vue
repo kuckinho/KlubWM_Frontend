@@ -4,6 +4,7 @@
 
   <!-- Anzeige der Gruppen mit flexibler Anordnung -->
   <div v-if="groups.length" class="group-container">
+    <h2>Gruppentabellen</h2>
     <div v-for="group in groups" :key="group.id" class="group">
       <h2>{{ group.name }}</h2>
       <table>
@@ -35,7 +36,8 @@
     </div>
   </div>
 
-  <br />
+  <br>
+  <h2>Ergebnisrechner</h2>
 
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
@@ -43,7 +45,7 @@
     <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
   </div>
 
-  <br />
+  <br>
 
   <ul>
     <li v-for="match in matches" :key="match.id" class="match-item">
@@ -176,6 +178,7 @@ button {
   transition: background-color 0.3s;
   padding: 9px 15px;
   border-radius: 50px;
+  width: 275px;
 }
 
 button:hover {
@@ -190,13 +193,16 @@ button:hover {
 
 .match-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  gap: 30px; /* Anpassbarer Abstand zwischen den Spalten */
 }
 
 .match-info {
   flex: 2;
+  white-space: nowrap; /* Verhindert den Umbruch des Textes */
+  overflow: hidden; /* Falls der Text länger als der Container ist */
+  text-overflow: ellipsis; /* Zeigt '...' für Überlauf an */
 }
 
 .match-inputs {
@@ -248,5 +254,13 @@ th, td {
 th {
   text-align: left;
   background-color: #003366;
+  font-weight: bold;
 }
+
+h2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #B8860B;
+}
+
 </style>
