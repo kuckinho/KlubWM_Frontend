@@ -219,7 +219,6 @@ button:hover {
 
 .match-info {
   flex: 1;
-  width: 400px; /* Feste Breite für die Team- und Stadioninformationen */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
