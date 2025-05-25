@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }">
+        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team) }">
           <td>
             {{ team.team.name }}
             <span v-if="isGroupWinner(group, team)" class="trophy-icon">🏆</span>
@@ -42,15 +42,13 @@
   <h2>Ergebnisrechner</h2>
   <br>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
-  <br>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
-
+  <br>
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
     <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
-    <button @click="resetAll">Alle Ergebnisse zurücksetzen</button>
+    <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
   </div>
-
   <br>
 
   <ul>
@@ -119,14 +117,12 @@ async function saveAllMatches() {
   }
 }
 
-function resetAll() {
-  // Reset matches to initial state
+function resetAllMatches() {
   matches.value.forEach(match => {
-    match.homeScore = null; // Zurücksetzen der Scores
-    match.visitorScore = null;
+    match.homeScore = 0;
+    match.visitorScore = 0;
   });
 
-  // Reset the teams within the groups to their initial state
   groups.value.forEach(group => {
     group.teams.forEach(team => {
       team.matches = 0;
@@ -138,8 +134,6 @@ function resetAll() {
       team.points = 0;
     });
   });
-
-  // Keine API-Anfragen notwendig, Zustand direkt zurückgesetzt
 }
 
 function generateRandomResult(match) {
@@ -178,19 +172,13 @@ function isGroupWinner(group, team) {
   const sorted = sortedTeams(group.teams);
   return sorted.length > 0 && sorted[0].id === team.id;
 }
-
-function isGroupRunnerUp(group, team) {
-  const sorted = sortedTeams(group.teams);
-  return sorted.length > 1 && sorted[1].id === team.id;
-}
-
 </script>
 
 <style scoped>
 .buttons {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: center; /* Zentriert die Buttons horizontal */
+  gap: 10px; /* Abstand zwischen den Buttons */
 }
 
 button {
@@ -209,7 +197,7 @@ button:hover {
 }
 
 .small-button {
-  padding: 5px 10px;
+  padding: 5px 10px; /* Kleinere Höhe für den Zufallsbutton */
   width: 150px;
 }
 
@@ -217,14 +205,14 @@ button:hover {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  gap: 5px;
+  gap: 5px; /* Anpassbarer Abstand zwischen den Spalten */
 }
 
 .match-info {
   flex: 2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap; /* Verhindert den Umbruch des Textes */
+  overflow: hidden; /* Falls der Text länger als der Container ist */
+  text-overflow: ellipsis; /* Zeigt '...' für Überlauf an */
 }
 
 .match-inputs {
@@ -240,23 +228,25 @@ button:hover {
 }
 
 .score-input {
-  width: 25%;
+  width: 25%; /* um 75% verkürzt */
   text-align: center;
 }
 
+/* Flex Container für die Gruppenansicht */
 .group-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
+  grid-template-columns: repeat(2, 1fr); /* zwei Gruppen pro Reihe */
+  gap: 50px; /* Abstand zwischen den Gruppen */
   margin-top: 20px;
   justify-items: center;
 }
 
+/* Stilisierung jeder einzelnen Gruppe */
 .group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 100%; /* Breite für zwei Gruppen pro Zeile */
 }
 
 table {
@@ -268,17 +258,13 @@ table {
 th, td {
   border: 1px solid #ccffcc;
   padding: 8px;
-  white-space: nowrap;
+  white-space: nowrap; /* Verhindert den Umbruch der Mannschaftsnamen */
 }
 
 th {
   text-align: left;
   background-color: #003366;
   font-weight: bold;
-}
-
-th, td:nth-child(n+2) { /* Gilt für alle Spalten außer die erste */
-  width: 12%; /* Passe den Wert an das Layout an */
 }
 
 h2 {
@@ -292,24 +278,12 @@ h1 {
   color: #32CD32;
 }
 
-p {
-  border: 1px solid #ccffcc;
-  text-align: center;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 .winner-team {
-  color: #B8860B;
-  font-weight: bold;
-}
-
-.runner-up-team {
-  color: #B8860B; /* Goldene Farbe für den Zweitplatzierten */
+  color: #B8860B; /* Helles Grün als Gewinnerfarbe */
   font-weight: bold;
 }
 
 .trophy-icon {
-  margin-left: 5px;
+  margin-left: 5px; /* Abstand zum Mannschaftsnamen */
 }
 </style>
