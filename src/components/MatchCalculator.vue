@@ -34,10 +34,9 @@
       </table>
     </div>
   </div>
-
+  <br>
   <br>
   <h2>Ergebnisrechner</h2>
-  <br>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
   <br>
@@ -248,7 +247,7 @@ button:hover {
 
 table {
   border-collapse: collapse;
-  width: 600px;
+  width: 500px;
   margin-top: 10px;
 }
 
@@ -265,7 +264,7 @@ th {
 }
 
 th, td:nth-child(n+2) { /* Gilt für alle Spalten außer die erste */
-  width: 75px; /* Passe den Wert an das Layout an */
+  width: 65px; /* Passe den Wert an das Layout an */
 }
 
 h2 {
