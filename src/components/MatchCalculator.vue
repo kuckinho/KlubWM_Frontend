@@ -20,7 +20,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }">
+        <tr
+          v-for="team in sortedTeams(group.teams)"
+          :key="team.id"
+          :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }"
+        >
           <td>{{ team.team.name }}</td>
           <td>{{ team.matches }}</td>
           <td>{{ team.wins }}</td>
@@ -34,30 +38,32 @@
       </table>
     </div>
   </div>
-  <br>
+  <br />
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
-  <br>
+  <br />
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
     <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
     <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
     <button @click="highlightWinners">Alle Sieger küren</button>
   </div>
-  <br>
+  <br />
 
   <ul>
     <li v-for="match in matches" :key="match.id" class="match-item">
       <div class="match-info">
-        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} ({{ match.stadium.name }}):
+        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
       </div>
       <div class="match-inputs">
         <select v-model.number="match.homeScore" class="score-input">
+          <option :value="null" disabled selected>Wählen...</option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
         -
         <select v-model.number="match.visitorScore" class="score-input">
+          <option :value="null" disabled selected>Wählen...</option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
       </div>
@@ -121,8 +127,8 @@ async function saveAllMatches() {
 
 function resetAllMatches() {
   matches.value.forEach(match => {
-    match.homeScore = 0;
-    match.visitorScore = 0;
+    match.homeScore = null;  // Verwende null, um den Standardwert auf leer zu setzen
+    match.visitorScore = null;  // Verwende null, um den Standardwert auf leer zu setzen
   });
 
   groups.value.forEach(group => {
@@ -239,7 +245,6 @@ button:hover {
 .score-input {
   width: 80px;
   text-align: center;
-  font-weight: bold;
 }
 
 .group-container {
