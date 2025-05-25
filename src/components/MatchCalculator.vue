@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <br>
+  <br />
 
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
@@ -43,14 +43,14 @@
     <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
   </div>
 
-  <br>
+  <br />
 
   <ul>
     <li v-for="match in matches" :key="match.id">
       {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
       <input type="number" v-model.number="match.homeScore" placeholder="Home" min="0" /> -
       <input type="number" v-model.number="match.visitorScore" placeholder="Visitor" min="0" />
-      <button @click="generateRandomResult(match)">Zufälliges Ergebnis</button>
+      <button class="small-button" @click="generateRandomResult(match)">Zufälliges Ergebnis</button>
     </li>
   </ul>
 </template>
@@ -110,6 +110,12 @@ function resetAllMatches() {
     match.homeScore = 0;
     match.visitorScore = 0;
   });
+
+  groups.value.forEach(group => {
+    group.teams.forEach(team => {
+      team.matches = 0;
+    });
+  });
 }
 
 function generateRandomResult(match) {
@@ -166,13 +172,17 @@ button:hover {
   font-weight: bold;
 }
 
+.small-button {
+  padding: 5px 10px; /* Kleinere Höhe für den Zufallsbutton */
+}
+
 /* Flex Container für die Gruppenansicht */
 .group-container {
-  display: flex;
-  flex-wrap: wrap; /* Ermöglicht Umbruch in mehreren Zeilen */
-  justify-content: center; /* Zentriert die Gruppen in einer Reihe */
-  gap: 50px; /* Abstand horizontal zwischen den Gruppen */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* zwei Gruppen pro Reihe */
+  gap: 50px; /* Abstand zwischen den Gruppen */
   margin-top: 20px;
+  justify-items: center;
 }
 
 /* Stilisierung jeder einzelnen Gruppe */
@@ -180,7 +190,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 23%; /* Breite für vier Gruppen pro Zeile */
+  width: 100%; /* Breite für zwei Gruppen pro Zeile */
 }
 
 table {
@@ -192,6 +202,7 @@ table {
 th, td {
   border: 1px solid #ccffcc;
   padding: 8px;
+  white-space: nowrap; /* Verhindert den Umbruch der Mannschaftsnamen */
 }
 
 th {

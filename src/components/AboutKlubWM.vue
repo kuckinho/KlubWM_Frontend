@@ -12,11 +12,13 @@
       Ansehen: Auslosungsverfahren
     </button>
     <button @click="openPDF('Compliance.pdf')"  class="open-button">
-      Ansehen: Auslosungsverfahren
+      Ansehen: FIFA-Handbuch
     </button>
-    <button @click="openPDF('Compliance.pdf')"  class="open-button">
-      Ansehen: Auslosungsverfahren
-    </button>
+      <a href="https://www.fifa.com/de/tournaments/mens/club-world-cup/usa-2025"
+         target="_blank"
+         class="open-button">
+        Zur KLUB WM-Homepage
+      </a>
     </div>
 
   <div class="container">
