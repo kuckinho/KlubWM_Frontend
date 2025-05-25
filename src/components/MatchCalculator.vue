@@ -144,11 +144,20 @@ function sortedTeams(teams) {
 <style scoped>
 button {
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  margin-top: 30px;
+  padding: 9px 15px;
+  border-radius: 50px;
+  width: 275px;
+  color: #cfc;
+  background-color: #003366;
+  transition: background-color 0.3s;
   justify-content: center;
-  font-size: 20px;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #003366;
+  color: #39FF14;
+  font-weight: bold;
 }
 
 /* Flex Container für die Gruppenansicht */
