@@ -19,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="team in group.teams" :key="team.id">
+        <tr v-for="team in sortedTeams(group.teams)" :key="team.id">
           <td>{{ team.team.name }}</td>
           <td>{{ team.matches }}</td>
           <td>{{ team.wins }}</td>
@@ -129,6 +129,15 @@ function generateRandomScore() {
   } else {
     return Math.floor(random * 3) + 5;
   }
+}
+
+function sortedTeams(teams) {
+  return [...teams].sort((a, b) =>
+    b.points - a.points ||
+    b.goalDifference - a.goalDifference ||
+    b.goalScored - a.goalScored ||
+    (Math.random() - 0.5)  // Zufällige Entscheidung
+  );
 }
 </script>
 
