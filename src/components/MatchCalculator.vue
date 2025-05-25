@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team) }">
+        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }">
           <td>{{ team.team.name }}</td>
           <td>{{ team.matches }}</td>
           <td>{{ team.wins }}</td>
@@ -35,7 +35,6 @@
     </div>
   </div>
   <br>
-  <br>
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
@@ -44,6 +43,7 @@
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
     <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
     <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
+    <button @click="highlightWinners">Alle Sieger küren</button>
   </div>
   <br>
 
@@ -53,8 +53,13 @@
         {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
       </div>
       <div class="match-inputs">
-        <input type="number" v-model.number="match.homeScore" placeholder="Home" min="0" class="score-input" /> -
-        <input type="number" v-model.number="match.visitorScore" placeholder="Visitor" min="0" class="score-input" />
+        <select v-model.number="match.homeScore" class="score-input">
+          <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
+        </select>
+        -
+        <select v-model.number="match.visitorScore" class="score-input">
+          <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
+        </select>
       </div>
       <div class="match-buttons">
         <button class="small-button" @click="generateRandomResult(match)">Zufälliges Ergebnis</button>
@@ -71,6 +76,7 @@ defineProps(['title']);
 
 const matches = ref([]);
 const groups = ref([]);
+const winnersHighlighted = ref(false);
 
 onMounted(async () => {
   await loadMatches();
@@ -130,6 +136,8 @@ function resetAllMatches() {
       team.points = 0;
     });
   });
+
+  winnersHighlighted.value = false; // Reset the winner highlighting
 }
 
 function generateRandomResult(match) {
@@ -145,14 +153,8 @@ function generateRandomResultsForAll() {
 }
 
 function generateRandomScore() {
-  const random = Math.random();
-  if (random < 0.5) {
-    return Math.floor(random * 3);
-  } else if (random < 0.8) {
-    return Math.floor(random * 2) + 3;
-  } else {
-    return Math.floor(random * 3) + 5;
-  }
+  const options = [...Array(10).keys()];  // 0 bis 9
+  return options[Math.floor(Math.random() * options.length)];
 }
 
 function sortedTeams(teams) {
@@ -165,16 +167,27 @@ function sortedTeams(teams) {
 }
 
 function isGroupWinner(group, team) {
+  if (!winnersHighlighted.value) return false;
   const sorted = sortedTeams(group.teams);
   return sorted.length > 0 && sorted[0].id === team.id;
+}
+
+function isGroupRunnerUp(group, team) {
+  if (!winnersHighlighted.value) return false;
+  const sorted = sortedTeams(group.teams);
+  return sorted.length > 1 && sorted[1].id === team.id;
+}
+
+function highlightWinners() {
+  winnersHighlighted.value = true;
 }
 </script>
 
 <style scoped>
 .buttons {
   display: flex;
-  justify-content: center; /* Zentriert die Buttons horizontal */
-  gap: 10px; /* Abstand zwischen den Buttons */
+  justify-content: center;
+  gap: 10px;
 }
 
 button {
@@ -193,7 +206,7 @@ button:hover {
 }
 
 .small-button {
-  padding: 5px 10px; /* Kleinere Höhe für den Zufallsbutton */
+  padding: 5px 10px;
   width: 150px;
 }
 
@@ -201,14 +214,14 @@ button:hover {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  gap: 5px; /* Anpassbarer Abstand zwischen den Spalten */
+  gap: 5px;
 }
 
 .match-info {
   flex: 2;
-  white-space: nowrap; /* Verhindert den Umbruch des Textes */
-  overflow: hidden; /* Falls der Text länger als der Container ist */
-  text-overflow: ellipsis; /* Zeigt '...' für Überlauf an */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .match-inputs {
@@ -224,25 +237,23 @@ button:hover {
 }
 
 .score-input {
-  width: 25%; /* um 75% verkürzt */
+  width: 80px;
   text-align: center;
 }
 
-/* Flex Container für die Gruppenansicht */
 .group-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* zwei Gruppen pro Reihe */
-  gap: 50px; /* Abstand zwischen den Gruppen */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
   margin-top: 20px;
   justify-items: center;
 }
 
-/* Stilisierung jeder einzelnen Gruppe */
 .group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Breite für zwei Gruppen pro Zeile */
+  width: 100%;
 }
 
 table {
@@ -254,7 +265,7 @@ table {
 th, td {
   border: 1px solid #ccffcc;
   padding: 8px;
-  white-space: nowrap; /* Verhindert den Umbruch der Mannschaftsnamen */
+  white-space: nowrap;
 }
 
 th {
@@ -263,8 +274,16 @@ th {
   font-weight: bold;
 }
 
-th, td:nth-child(n+2) { /* Gilt für alle Spalten außer die erste */
-  width: 65px; /* Passe den Wert an das Layout an */
+th, td:nth-child(n+2) {
+  width: 65px;
+}
+
+.winner-team {
+  color: green;
+}
+
+.runner-up-team {
+  color: gold;
 }
 
 h2 {
@@ -277,5 +296,4 @@ h1 {
   margin-bottom: 5px;
   color: #32CD32;
 }
-
 </style>
