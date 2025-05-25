@@ -219,7 +219,7 @@ button:hover {
 
 .match-info {
   flex: 1;
-  width: 300px; /* Feste Breite für die Team- und Stadioninformationen */
+  width: 400px; /* Feste Breite für die Team- und Stadioninformationen */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -227,14 +227,14 @@ button:hover {
 
 .match-inputs {
   flex: 1;
-  width: 75px; /* Feste Breite für die Ergebniseingabe */
+  width: 50px; /* Feste Breite für die Ergebniseingabe */
   display: flex;
   justify-content: center;
 }
 
 .match-buttons {
   flex: 1;
-  width: 75px; /* Feste Breite für die Button-Spalte */
+  width: 50px; /* Feste Breite für die Button-Spalte */
   display: flex;
   justify-content: center;
 }

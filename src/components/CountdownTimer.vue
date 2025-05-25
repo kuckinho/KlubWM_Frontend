@@ -96,7 +96,7 @@ function convertToMEZ(hour, day, month) {
 
 const games = ref([
   { phase: 'Eröffnungsspiel', teams: ['Al Ahly', 'Inter Miami'], date: '15.6.', time: '02:00', dateTime: convertToMEZ(2, 15, 5), index: 0 },
-  { phase: 'Endspiel', date: '13.7.', time: '21:00', dateTime: convertToMEZ(21, 13, 6), index: 1 },
+  { phase: 'Endspiel', teams: ['Finalgegner', 'Finalgegner'], date: '13.7.', time: '21:00', dateTime: convertToMEZ(21, 13, 6), index: 1 },
   { phase: 'Spieltag 1 von 3', teams: ['Bayern', 'Auckland City'], date: '15.6.', time: '18:00', dateTime: convertToMEZ(18, 15, 5), index: 2 },
   { phase: 'Spieltag 1 von 3', teams: ['PSG', 'Atlético Madrid'], date: '15.6.', time: '21:00', dateTime: convertToMEZ(21, 15, 5), index: 3 },
   { phase: 'Spieltag 1 von 3', teams: ['Palmeiras', 'FC Porto'], date: '16.6.', time: '00:00', dateTime: convertToMEZ(0, 16, 5), index: 4 },
