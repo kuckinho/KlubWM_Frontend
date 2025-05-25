@@ -42,8 +42,8 @@
   <h2>Ergebnisrechner</h2>
   <br>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
-  <br>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
+  <br>
 
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
@@ -270,6 +270,7 @@ th, td {
   border: 1px solid #ccffcc;
   padding: 8px;
   white-space: nowrap;
+  width: 100px; /* Feste Breite für die Zellen */
 }
 
 th {
@@ -294,7 +295,6 @@ h1 {
 }
 
 p {
-  border: 1px solid #ccffcc;
   text-align: center;
   margin-top: 5px;
   margin-bottom: 5px;
