@@ -226,14 +226,12 @@ button:hover {
 
 .match-inputs {
   flex: 1;
-  width: 50px; /* Feste Breite für die Ergebniseingabe */
   display: flex;
   justify-content: center;
 }
 
 .match-buttons {
   flex: 1;
-  width: 50px; /* Feste Breite für die Button-Spalte */
   display: flex;
   justify-content: center;
 }
