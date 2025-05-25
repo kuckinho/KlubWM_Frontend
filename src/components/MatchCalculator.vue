@@ -211,16 +211,16 @@ function generateRandomResultsForAll() {
 function generateRandomScore() {
   // Definiere die Anzahl der Vorkommen jeder Zahl, basierend auf ihrer Wahrscheinlichkeit
   const weightedOptions = [
-    ...Array(25).fill(0),  // 0 hat eine Wahrscheinlichkeit von 0.25
-    ...Array(20).fill(1),  // 1 hat eine Wahrscheinlichkeit von 0.2
-    ...Array(20).fill(2),  // 2 hat eine Wahrscheinlichkeit von 0.2
-    ...Array(15).fill(3),  // 3 hat eine Wahrscheinlichkeit von 0.15
-    ...Array(10).fill(4),  // 4 hat eine Wahrscheinlichkeit von 0.1
-    ...Array(5).fill(5),   // 5 hat eine Wahrscheinlichkeit von 0.05
-    ...Array(2).fill(6),   // 6 hat eine Wahrscheinlichkeit von 0.025
-    ...Array(2).fill(7),   // 7 hat eine Wahrscheinlichkeit von 0.025
-    ...Array(1).fill(8),   // 8 hat eine Wahrscheinlichkeit von 0.015
-    ...Array(1).fill(9)    // 9 hat eine Wahrscheinlichkeit von 0.015
+    ...Array(25).fill(0),
+    ...Array(20).fill(1),
+    ...Array(20).fill(2),
+    ...Array(15).fill(3),
+    ...Array(10).fill(4),
+    ...Array(5).fill(5),
+    ...Array(2).fill(6),
+    ...Array(2).fill(7),
+    ...Array(1).fill(8),
+    ...Array(1).fill(9)
   ];
   // Ziehe einen Zufallswert aus dem gewichteten Array
   return weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
