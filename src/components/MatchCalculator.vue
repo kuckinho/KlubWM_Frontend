@@ -47,7 +47,7 @@
   </ul>
 
   <!-- Neuer Button zum Generieren zufälliger Ergebnisse für alle Matches -->
-  <button @click="generateRandomResultsForAll">Alle Zufällige Ergebnisse generieren</button>
+  <button @click="generateRandomResultsForAll">Zufällige Ergebnisse generieren</button>
   <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
   <button @click="resetAllMatches">Alle Ergebnisse auf 0 setzen</button>
 </template>
