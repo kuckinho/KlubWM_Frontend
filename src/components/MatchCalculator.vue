@@ -163,6 +163,7 @@ function updateGroupStats() {
 
 async function saveAllMatches() {
   try {
+    // Prüfe nur die Matches, deren Ergebnisse beide nicht null sind
     const matchUpdates = matches.value
       .filter(match => match.homeScore !== null && match.visitorScore !== null)
       .map(match => ({
@@ -171,17 +172,20 @@ async function saveAllMatches() {
         visitorScore: match.visitorScore,
       }));
 
+    // Nur speichern, wenn es Spiele mit Ergebnissen gibt
     if (matchUpdates.length > 0) {
       await apiClient.put('/matches/batch', matchUpdates);
+      // Nach dem Speichern die Gruppen neu laden, um Statistiken basierend auf gespeicherten, echten Ergebnissen zu aktualisieren
+      await loadGroups();
+    } else {
+      console.log("Keine gültigen Ergebnisse zum Speichern.");
     }
-
-    // Nach dem Speichern die Gruppen neu laden
-    await loadGroups();
 
   } catch (error) {
     console.error("Error saving matches:", error);
   }
 }
+
 
 function resetAllMatches() {
   matches.value.forEach(match => {
