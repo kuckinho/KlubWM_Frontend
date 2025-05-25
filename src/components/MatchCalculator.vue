@@ -50,7 +50,7 @@
   <ul>
     <li v-for="match in matches" :key="match.id" class="match-item">
       <div class="match-info">
-        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
+        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} ({{ match.stadium.name }}):
       </div>
       <div class="match-inputs">
         <select v-model.number="match.homeScore" class="score-input">
@@ -227,18 +227,19 @@ button:hover {
 .match-inputs {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .match-buttons {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .score-input {
   width: 80px;
   text-align: center;
+  font-weight: bold;
 }
 
 .group-container {
@@ -279,7 +280,8 @@ th, td:nth-child(n+2) {
 }
 
 .winner-team {
-  color: green;
+  color: #B8860B;
+  font-weight: bold;
 }
 
 .runner-up-team {
