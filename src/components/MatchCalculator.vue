@@ -275,17 +275,12 @@ th {
   font-weight: bold;
 }
 
-th, td:nth-child(n+2) {
-  width: 65px;
-}
-
 .winner-team {
-  color: #B8860B;
-  font-weight: bold;
+  color: gold;
 }
 
 .runner-up-team {
-  color: gold;
+  color: #B8860B;
 }
 
 h2 {
