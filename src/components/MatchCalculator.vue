@@ -20,11 +20,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr
-          v-for="team in sortedTeams(group.teams)"
-          :key="team.id"
-          :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }"
-        >
+        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }">
           <td>{{ team.team.name }}</td>
           <td>{{ team.matches }}</td>
           <td>{{ team.wins }}</td>
@@ -38,32 +34,32 @@
       </table>
     </div>
   </div>
-  <br />
+  <br>
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
-  <br />
+  <br>
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
     <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
     <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
     <button @click="highlightWinners">Alle Sieger küren</button>
   </div>
-  <br />
+  <br>
 
   <ul>
     <li v-for="match in matches" :key="match.id" class="match-item">
       <div class="match-info">
-        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
+        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} ({{ match.stadium.name }}):
       </div>
       <div class="match-inputs">
         <select v-model.number="match.homeScore" class="score-input">
-          <option :value="null" disabled selected>Wählen...</option>
+          <option :value="null" disabled selected hidden></option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
         -
         <select v-model.number="match.visitorScore" class="score-input">
-          <option :value="null" disabled selected>Wählen...</option>
+          <option :value="null" disabled selected hidden></option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
       </div>
@@ -75,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import apiClient from '../axios.js';
 
 defineProps(['title']);
@@ -89,10 +85,19 @@ onMounted(async () => {
   await loadGroups();
 });
 
+// Watch for changes in the matches to update the groups
+watch(matches, () => {
+  updateGroupStats();
+});
+
 async function loadMatches() {
   try {
     const matchesResponse = await apiClient.get('/matches');
-    matches.value = matchesResponse.data;
+    matches.value = matchesResponse.data.map(match => ({
+      ...match,
+      homeScore: null,
+      visitorScore: null
+    }));
   } catch (error) {
     console.error("Error fetching matches:", error);
   }
@@ -105,6 +110,55 @@ async function loadGroups() {
   } catch (error) {
     console.error("Error fetching groups:", error);
   }
+}
+
+function updateGroupStats() {
+  // Reset stats
+  groups.value.forEach(group => {
+    group.teams.forEach(team => {
+      team.matches = 0;
+      team.wins = 0;
+      team.draws = 0;
+      team.losses = 0;
+      team.goalDifference = 0;
+      team.goalScored = 0;
+      team.points = 0;
+    });
+  });
+
+  // Update stats
+  matches.value.forEach(match => {
+    if (match.homeScore !== null && match.visitorScore !== null) {
+      const homeTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.homeTeam.id);
+      const visitorTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.visitorTeam.id);
+
+      if (homeTeam && visitorTeam) {
+        homeTeam.matches++;
+        visitorTeam.matches++;
+
+        homeTeam.goalScored += match.homeScore;
+        visitorTeam.goalScored += match.visitorScore;
+
+        homeTeam.goalDifference += (match.homeScore - match.visitorScore);
+        visitorTeam.goalDifference += (match.visitorScore - match.homeScore);
+
+        if (match.homeScore > match.visitorScore) {
+          homeTeam.wins++;
+          visitorTeam.losses++;
+          homeTeam.points += 3;
+        } else if (match.homeScore < match.visitorScore) {
+          visitorTeam.wins++;
+          homeTeam.losses++;
+          visitorTeam.points += 3;
+        } else {
+          homeTeam.draws++;
+          visitorTeam.draws++;
+          homeTeam.points += 1;
+          visitorTeam.points += 1;
+        }
+      }
+    }
+  });
 }
 
 async function saveAllMatches() {
@@ -127,22 +181,11 @@ async function saveAllMatches() {
 
 function resetAllMatches() {
   matches.value.forEach(match => {
-    match.homeScore = null;  // Verwende null, um den Standardwert auf leer zu setzen
-    match.visitorScore = null;  // Verwende null, um den Standardwert auf leer zu setzen
+    match.homeScore = null;
+    match.visitorScore = null;
   });
 
-  groups.value.forEach(group => {
-    group.teams.forEach(team => {
-      team.matches = 0;
-      team.wins = 0;
-      team.draws = 0;
-      team.losses = 0;
-      team.goalDifference = 0;
-      team.goalScored = 0;
-      team.points = 0;
-    });
-  });
-
+  updateGroupStats();
   winnersHighlighted.value = false; // Reset the winner highlighting
 }
 
@@ -245,6 +288,7 @@ button:hover {
 .score-input {
   width: 80px;
   text-align: center;
+  font-weight: bold;
 }
 
 .group-container {
