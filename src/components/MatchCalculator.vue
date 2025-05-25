@@ -46,11 +46,17 @@
   <br />
 
   <ul>
-    <li v-for="match in matches" :key="match.id">
-      {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
-      <input type="number" v-model.number="match.homeScore" placeholder="Home" min="0" /> -
-      <input type="number" v-model.number="match.visitorScore" placeholder="Visitor" min="0" />
-      <button class="small-button" @click="generateRandomResult(match)">Zufälliges Ergebnis</button>
+    <li v-for="match in matches" :key="match.id" class="match-item">
+      <div class="match-info">
+        {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} in {{ match.stadium.name }}:
+      </div>
+      <div class="match-inputs">
+        <input type="number" v-model.number="match.homeScore" placeholder="Home" min="0" class="score-input" /> -
+        <input type="number" v-model.number="match.visitorScore" placeholder="Visitor" min="0" class="score-input" />
+      </div>
+      <div class="match-buttons">
+        <button class="small-button" @click="generateRandomResult(match)">Zufälliges Ergebnis</button>
+      </div>
     </li>
   </ul>
 </template>
@@ -114,6 +120,12 @@ function resetAllMatches() {
   groups.value.forEach(group => {
     group.teams.forEach(team => {
       team.matches = 0;
+      team.wins = 0;
+      team.draws = 0;
+      team.losses = 0;
+      team.goalDifference = 0;
+      team.goalScored = 0;
+      team.points = 0;
     });
   });
 }
@@ -174,6 +186,34 @@ button:hover {
 
 .small-button {
   padding: 5px 10px; /* Kleinere Höhe für den Zufallsbutton */
+}
+
+.match-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.match-info {
+  flex: 2;
+}
+
+.match-inputs {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.match-buttons {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.score-input {
+  width: 25%; /* um 75% verkürzt */
+  text-align: center;
 }
 
 /* Flex Container für die Gruppenansicht */
