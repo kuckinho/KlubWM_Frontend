@@ -5,7 +5,7 @@
   <!-- Anzeige der Gruppen mit flexibler Anordnung -->
   <div v-if="groups.length" class="group-container">
     <div v-for="group in groups" :key="group.id" class="group">
-      <h2>{{ group.name }}</h2>
+      <h1>{{ group.name }}</h1>
       <table>
         <thead>
         <tr>
@@ -20,8 +20,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="team in sortedTeams(group.teams)" :key="team.id">
-          <td>{{ team.team.name }}</td>
+        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team) }">
+          <td>
+            {{ team.team.name }}
+            <span v-if="isGroupWinner(group, team)" class="trophy-icon">🏆</span>
+          </td>
           <td>{{ team.matches }}</td>
           <td>{{ team.wins }}</td>
           <td>{{ team.draws }}</td>
@@ -162,6 +165,11 @@ function sortedTeams(teams) {
     (Math.random() - 0.5)  // Zufällige Entscheidung
   );
 }
+
+function isGroupWinner(group, team) {
+  const sorted = sortedTeams(group.teams);
+  return sorted.length > 0 && sorted[0].id === team.id;
+}
 </script>
 
 <style scoped>
@@ -195,7 +203,7 @@ button:hover {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  gap: 10px; /* Anpassbarer Abstand zwischen den Spalten */
+  gap: 5px; /* Anpassbarer Abstand zwischen den Spalten */
 }
 
 .match-info {
@@ -263,4 +271,18 @@ h2 {
   color: #B8860B;
 }
 
+h1 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #32CD32;
+}
+
+.winner-team {
+  background-color: #d4f4cc; /* Helles Grün als Gewinnerfarbei */
+  font-weight: bold;
+}
+
+.trophy-icon {
+  margin-left: 5px; /* Abstand zum Mannschaftsnamen */
+}
 </style>
