@@ -175,12 +175,12 @@ table {
 }
 
 th, td {
-  border: 1px solid #ddd;
+  border: 1px solid #ccffcc;
   padding: 8px;
 }
 
 th {
   text-align: left;
-  background-color: #f2f2f2;
+  background-color: #003366;
 }
 </style>
