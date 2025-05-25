@@ -209,39 +209,21 @@ function generateRandomResultsForAll() {
 }
 
 function generateRandomScore() {
-  // Definiere die Wahrscheinlichkeiten für jede Zahl
-  const probabilities = {
-    0: 0.25,
-    1: 0.2,
-    2: 0.2,
-    3: 0.15,
-    4: 0.1,
-    5: 0.05,
-    6: 0.025,
-    7: 0.025,
-    8: 0.015,
-    9: 0.015
-  };
-
-  // Kumulieren der Wahrscheinlichkeiten
-  const cumulativeProbabilities = [];
-  let sum = 0;
-  for (const score in probabilities) {
-    sum += probabilities[score];
-    cumulativeProbabilities.push({ score: parseInt(score), cumulative: sum });
-  }
-
-  // Generiere eine zufällige Zahl zwischen 0 und 1
-  const rand = Math.random();
-
-  // Finde die entsprechende Zahl basierend auf der kumulierten Wahrscheinlichkeit
-  for (const entry of cumulativeProbabilities) {
-    if (rand < entry.cumulative) {
-      return entry.score;
-    }
-  }
-  // Ein Rückfallwert, falls alle kumulierten Berechnungen fehlschlagen (sollte nie erreicht werden)
-  return 0;
+  // Definiere die Anzahl der Vorkommen jeder Zahl, basierend auf ihrer Wahrscheinlichkeit
+  const weightedOptions = [
+    ...Array(25).fill(0),  // 0 hat eine Wahrscheinlichkeit von 0.25
+    ...Array(20).fill(1),  // 1 hat eine Wahrscheinlichkeit von 0.2
+    ...Array(20).fill(2),  // 2 hat eine Wahrscheinlichkeit von 0.2
+    ...Array(15).fill(3),  // 3 hat eine Wahrscheinlichkeit von 0.15
+    ...Array(10).fill(4),  // 4 hat eine Wahrscheinlichkeit von 0.1
+    ...Array(5).fill(5),   // 5 hat eine Wahrscheinlichkeit von 0.05
+    ...Array(2).fill(6),   // 6 hat eine Wahrscheinlichkeit von 0.025
+    ...Array(2).fill(7),   // 7 hat eine Wahrscheinlichkeit von 0.025
+    ...Array(1).fill(8),   // 8 hat eine Wahrscheinlichkeit von 0.015
+    ...Array(1).fill(9)    // 9 hat eine Wahrscheinlichkeit von 0.015
+  ];
+  // Ziehe einen Zufallswert aus dem gewichteten Array
+  return weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
 }
 
 function sortedTeams(teams) {
