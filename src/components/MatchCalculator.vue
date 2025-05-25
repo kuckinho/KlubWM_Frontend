@@ -54,12 +54,12 @@
       </div>
       <div class="match-inputs">
         <select v-model.number="match.homeScore" class="score-input">
-          <option :value="null" disabled selected hidden></option>
+          <option :value="null" selected hidden></option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
         -
         <select v-model.number="match.visitorScore" class="score-input">
-          <option :value="null" disabled selected hidden></option>
+          <option :value="null" selected hidden></option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
       </div>
@@ -126,7 +126,7 @@ function updateGroupStats() {
     });
   });
 
-  // Update stats
+  // Update stats only if scores are set (not null)
   matches.value.forEach(match => {
     if (match.homeScore !== null && match.visitorScore !== null) {
       const homeTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.homeTeam.id);
@@ -186,7 +186,7 @@ function resetAllMatches() {
   });
 
   updateGroupStats();
-  winnersHighlighted.value = false; // Reset the winner highlighting
+  winnersHighlighted.value = false;  // Reset the winner highlighting
 }
 
 function generateRandomResult(match) {
