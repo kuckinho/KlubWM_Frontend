@@ -163,13 +163,17 @@ function updateGroupStats() {
 
 async function saveAllMatches() {
   try {
-    const matchUpdates = matches.value.map(match => ({
-      id: match.id,
-      homeScore: match.homeScore,
-      visitorScore: match.visitorScore,
-    }));
+    const matchUpdates = matches.value
+      .filter(match => match.homeScore !== null && match.visitorScore !== null)
+      .map(match => ({
+        id: match.id,
+        homeScore: match.homeScore,
+        visitorScore: match.visitorScore,
+      }));
 
-    await apiClient.put('/matches/batch', matchUpdates);
+    if (matchUpdates.length > 0) {
+      await apiClient.put('/matches/batch', matchUpdates);
+    }
 
     // Nach dem Speichern die Gruppen neu laden
     await loadGroups();
