@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team) }">
+        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }">
           <td>
             {{ team.team.name }}
             <span v-if="isGroupWinner(group, team)" class="trophy-icon">🏆</span>
@@ -170,13 +170,19 @@ function isGroupWinner(group, team) {
   const sorted = sortedTeams(group.teams);
   return sorted.length > 0 && sorted[0].id === team.id;
 }
+
+function isGroupRunnerUp(group, team) {
+  const sorted = sortedTeams(group.teams);
+  return sorted.length > 1 && sorted[1].id === team.id;
+}
+
 </script>
 
 <style scoped>
 .buttons {
   display: flex;
-  justify-content: center; /* Zentriert die Buttons horizontal */
-  gap: 10px; /* Abstand zwischen den Buttons */
+  justify-content: center;
+  gap: 10px;
 }
 
 button {
@@ -195,7 +201,7 @@ button:hover {
 }
 
 .small-button {
-  padding: 5px 10px; /* Kleinere Höhe für den Zufallsbutton */
+  padding: 5px 10px;
   width: 150px;
 }
 
@@ -203,14 +209,14 @@ button:hover {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  gap: 5px; /* Anpassbarer Abstand zwischen den Spalten */
+  gap: 5px;
 }
 
 .match-info {
   flex: 2;
-  white-space: nowrap; /* Verhindert den Umbruch des Textes */
-  overflow: hidden; /* Falls der Text länger als der Container ist */
-  text-overflow: ellipsis; /* Zeigt '...' für Überlauf an */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .match-inputs {
@@ -226,25 +232,23 @@ button:hover {
 }
 
 .score-input {
-  width: 25%; /* um 75% verkürzt */
+  width: 25%;
   text-align: center;
 }
 
-/* Flex Container für die Gruppenansicht */
 .group-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* zwei Gruppen pro Reihe */
-  gap: 50px; /* Abstand zwischen den Gruppen */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
   margin-top: 20px;
   justify-items: center;
 }
 
-/* Stilisierung jeder einzelnen Gruppe */
 .group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Breite für zwei Gruppen pro Zeile */
+  width: 100%;
 }
 
 table {
@@ -256,7 +260,7 @@ table {
 th, td {
   border: 1px solid #ccffcc;
   padding: 8px;
-  white-space: nowrap; /* Verhindert den Umbruch der Mannschaftsnamen */
+  white-space: nowrap;
 }
 
 th {
@@ -268,7 +272,6 @@ th {
 h2 {
   margin-top: 5px;
   margin-bottom: 5px;
-  color: #B8860B;
 }
 
 h1 {
@@ -278,11 +281,16 @@ h1 {
 }
 
 .winner-team {
-  background-color: #d4f4cc; /* Helles Grün als Gewinnerfarbei */
+  color: #B8860B;
+  font-weight: bold;
+}
+
+.runner-up-team {
+  color: #B8860B; /* Goldene Farbe für den Zweitplatzierten */
   font-weight: bold;
 }
 
 .trophy-icon {
-  margin-left: 5px; /* Abstand zum Mannschaftsnamen */
+  margin-left: 5px;
 }
 </style>
