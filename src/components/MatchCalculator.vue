@@ -1,3 +1,4 @@
+
 <template>
   <h3>{{ title }}</h3>
 
@@ -34,12 +35,15 @@
     </div>
   </div>
 
-  <!-- Leerzeile zwischen Gruppen und Matches -->
   <br>
 
-  <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
-  <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
-  <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
+  <div class="buttons">
+    <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
+    <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
+    <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
+  </div>
+
+  <br>
 
   <ul>
     <li v-for="match in matches" :key="match.id">
@@ -142,16 +146,18 @@ function sortedTeams(teams) {
 </script>
 
 <style scoped>
-button {
+.buttons {
   display: flex;
-  padding: 9px 15px;
-  border-radius: 50px;
-  width: 275px;
+  justify-content: center; /* Zentriert die Buttons horizontal */
+  gap: 10px; /* Abstand zwischen den Buttons */
+}
+
+button {
   color: #cfc;
   background-color: #003366;
   transition: background-color 0.3s;
-  justify-content: center;
-  font-size: 15px;
+  padding: 9px 15px;
+  border-radius: 50px;
 }
 
 button:hover {
@@ -163,9 +169,9 @@ button:hover {
 /* Flex Container für die Gruppenansicht */
 .group-container {
   display: flex;
-  flex-wrap: wrap; /* Ermöglicht Umbruch in zwei Zeilen */
+  flex-wrap: wrap; /* Ermöglicht Umbruch in mehreren Zeilen */
   justify-content: center; /* Zentriert die Gruppen in einer Reihe */
-  gap: 50px; /* Abstand zwischen den Gruppen */
+  gap: 50px; /* Abstand horizontal zwischen den Gruppen */
   margin-top: 20px;
 }
 
@@ -174,7 +180,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 23%; /* Breite, um vier Gruppen pro Zeile zu ermöglichen */
+  width: 23%; /* Breite für vier Gruppen pro Zeile */
 }
 
 table {
