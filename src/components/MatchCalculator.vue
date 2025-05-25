@@ -262,7 +262,7 @@ button:hover {
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 800px;
   margin-top: 10px;
 }
 
@@ -277,10 +277,6 @@ th {
   text-align: left;
   background-color: #003366;
   font-weight: bold;
-}
-
-th, td:nth-child(n+2) { /* Gilt für alle Spalten außer die erste */
-  width: 12%; /* Passe den Wert an das Layout an */
 }
 
 h2 {
@@ -298,6 +294,7 @@ p {
   text-align: center;
   margin-top: 5px;
   margin-bottom: 5px;
+  color: #ccffcc;
 }
 
 .winner-team {
