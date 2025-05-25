@@ -1,10 +1,9 @@
 
 <template>
   <h3>{{ title }}</h3>
-
+  <h2>Gruppentabellen</h2>
   <!-- Anzeige der Gruppen mit flexibler Anordnung -->
   <div v-if="groups.length" class="group-container">
-    <h2>Gruppentabellen</h2>
     <div v-for="group in groups" :key="group.id" class="group">
       <h2>{{ group.name }}</h2>
       <table>
@@ -189,13 +188,14 @@ button:hover {
 
 .small-button {
   padding: 5px 10px; /* Kleinere Höhe für den Zufallsbutton */
+  width: 150px;
 }
 
 .match-item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  gap: 30px; /* Anpassbarer Abstand zwischen den Spalten */
+  gap: 10px; /* Anpassbarer Abstand zwischen den Spalten */
 }
 
 .match-info {
