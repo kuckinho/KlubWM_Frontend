@@ -21,10 +21,7 @@
         </thead>
         <tbody>
         <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team) }">
-          <td>
-            {{ team.team.name }}
-            <span v-if="isGroupWinner(group, team)" class="trophy-icon">🏆</span>
-          </td>
+          <td>{{ team.team.name }}</td>
           <td>{{ team.matches }}</td>
           <td>{{ team.wins }}</td>
           <td>{{ team.draws }}</td>
@@ -267,8 +264,12 @@ th {
   font-weight: bold;
 }
 
+th, td:nth-child(n+2) { /* Gilt für alle Spalten außer die erste */
+  width: 75px; /* Passe den Wert an das Layout an */
+}
+
 h2 {
-  margin-top: 5px;
+  margin-top: 15px;
   margin-bottom: 5px;
 }
 
@@ -278,12 +279,4 @@ h1 {
   color: #32CD32;
 }
 
-.winner-team {
-  color: #B8860B; /* Helles Grün als Gewinnerfarbe */
-  font-weight: bold;
-}
-
-.trophy-icon {
-  margin-left: 5px; /* Abstand zum Mannschaftsnamen */
-}
 </style>
