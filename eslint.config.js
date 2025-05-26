@@ -1,3 +1,4 @@
+
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import js from '@eslint/js';
@@ -17,7 +18,8 @@ export default defineConfig([
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node, // Fügt die Node.js Umgebung hinzu
+        ...globals.node,
+        ...pluginVitest.environments.globals, // Hinzufügen der Vitest globals
       },
     },
   },
@@ -27,7 +29,7 @@ export default defineConfig([
 
   {
     ...pluginVitest.configs.recommended,
-    files: ['src/**/__tests__/*'],
+    files: ['src/tests/**/*.spec.js', 'src/tests/**/*.test.js'], // Glob pattern für Vitest-Dateien
   },
   skipFormatting,
 ]);

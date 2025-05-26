@@ -1,41 +1,42 @@
-# .
+# README
 
-This template should help get you started developing with Vue 3 in Vite.
+# KlubWM Frontend
+Willkommen zur offiziellen Plattform der FIFA Klub-Weltmeisterschaft 2025! 
+Diese Anwendung bietet Ihnen umfassende Informationen und interaktive Funktionen rund um das bevorstehende Turnier.
 
-## Recommended IDE Setup
+## Willkommen-Seite
+- Übersicht: Eine zentrale Anlaufstelle, die Ihnen Links zu allen wichtigen Bereichen der Seite bietet.
+- Informationen zur FIFA Klub-WM 2025
+- Über die WM: Erfahren Sie mehr über das Turnier, den Teilnehmerkreis, den Turniermodus und die historische Entwicklung der Klub-WM.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Teilnehmer
+- Club-Liste: Hier finden Sie eine Liste aller teilnehmenden Vereine. Nutzen Sie die Such- und Filterfunktion, um spezifische Vereine nach Heimatland oder Liga zu finden.
 
-## Customize configuration
+## Countdown-Timer
+- Spielcountdown: Sehen Sie, wie lange es noch bis zum nächsten Spiel dauert! Der Countdown zeigt die verbleibende Zeit bis zu den wichtigsten Spielen, darunter das Eröffnungs- und das Endspiel.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Stadien
+- Stadienübersicht: Informieren Sie sich über die Stadien, in denen die Spiele ausgetragen werden. Finden Sie Details zu Standort, Kapazität und den geplanten Spielen in jedem Stadion.
 
-## Project Setup
+## Tabellenrechner
+- Spielergebnisse: Kalkulieren Sie potentielle Spielergebnisse und sehen Sie, wie sich verschiedene Szenarien auf die Gruppentabellen auswirken könnten. Diese Funktion ermöglicht es Ihnen, interaktiv mit den Spielresultaten zu experimentieren.
 
-```sh
-npm install
-```
+## Historie der Champions
+- Vergangene Gewinner: Erleben Sie eine chronologische Übersicht über alle bisherigen Champions der Klub-WM und deren Erfolge.
 
-### Compile and Hot-Reload for Development
+# Wie man die App benutzt
+1. Navigation: Verwenden Sie die obere Navigationsleiste, um durch die verschiedenen Abschnitte der Website zu surfen.
+2. Informationen Lesen: Klicken Sie auf die verschiedenen Sektionen, um mehr über die WM zu erfahren und auf spezifische Inhalte wie Teams, Stadien und Spiele zuzugreifen.
+3. Interaktive Features: Nutzen Sie den Tabellenrechner, Countdown-Timer und die Filtermöglichkeiten in den Listen, um Ihre Erfahrungen zu personalisieren.
 
-```sh
-npm run dev
-```
+# Externe Links
+- FIFA Offizielle Klub-Weltmeisterschaftsseite: Weitere Infos und offizielle Updates hier erhältlich.
+- Offizielle PDF-Dateien zur FIFA Klub-WM 2025.
 
-### Compile and Minify for Production
+# Technische Projektstruktur
+- src/ : Enthält den gesamten Quellcode des Projekts.
+- assets/ : Stile und statische Dateien.
+- components/ : Wiederverwendbare Vue-Komponenten.
+- router/ : Definition der Routen der Anwendung.
+- views/ : Komponentenansichten/Seiten.
 
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
