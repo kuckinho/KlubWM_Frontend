@@ -186,14 +186,32 @@ async function saveAllMatches() {
   }
 }
 
-function resetAllMatches() {
+async function resetAllMatches() {
   matches.value.forEach(match => {
     match.homeScore = null;
     match.visitorScore = null;
   });
 
   updateGroupStats();
-  winnersHighlighted.value = false;  // Reset the winner highlighting
+  winnersHighlighted.value = false; // Reset winner highlighting
+
+  try {
+    // Bereite die zurückgesetzten Spiele für die Speicherung in der Datenbank auf
+    const resetMatches = matches.value.map(match => ({
+      id: match.id,
+      homeScore: match.homeScore,
+      visitorScore: match.visitorScore
+    }));
+
+    // Überschreibe die bestehenden Daten in der Datenbank mit den zurückgesetzten Spielen
+    await apiClient.put('/matches/batch', resetMatches);
+    console.log("Alle Ergebnisse wurden in der Datenbank zurückgesetzt.");
+
+    // Optional: Lade die Gruppen neu, um sicherzustellen, dass alles synchronisiert ist
+    await loadGroups();
+  } catch (error) {
+    console.error("Fehler beim Zurücksetzen der Ergebnisse in der Datenbank:", error);
+  }
 }
 
 function generateRandomResult(match) {
