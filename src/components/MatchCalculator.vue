@@ -59,13 +59,13 @@
         {{ match.homeTeam.name }} vs {{ match.visitorTeam.name }} ({{ match.stadium.name }}):
       </div>
       <div class="match-inputs">
-        <select v-model.number="match.homeScore" class="score-input">
-          <option :value="null" selected hidden></option>
+        <select v-model="match.homeScore" class="score-input">
+          <option :value="''" selected hidden></option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
         -
-        <select v-model.number="match.visitorScore" class="score-input">
-          <option :value="null" selected hidden></option>
+        <select v-model="match.visitorScore" class="score-input">
+          <option :value="''" selected hidden></option>
           <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
       </div>
@@ -131,6 +131,7 @@ function updateGroupStats() {
   });
 
   matches.value.forEach(match => {
+    // Verwende explizit `===` um sicherzustellen, dass es sich um einen leeren String handelt.
     if (match.homeScore !== '' && match.visitorScore !== '') {
       const homeTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.homeTeam.id);
       const visitorTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.visitorTeam.id);
@@ -139,17 +140,17 @@ function updateGroupStats() {
         homeTeam.matches++;
         visitorTeam.matches++;
 
-        homeTeam.goalScored += match.homeScore;
-        visitorTeam.goalScored += match.visitorScore;
+        homeTeam.goalScored += parseInt(match.homeScore);
+        visitorTeam.goalScored += parseInt(match.visitorScore);
 
-        homeTeam.goalDifference += (match.homeScore - match.visitorScore);
-        visitorTeam.goalDifference += (match.visitorScore - match.homeScore);
+        homeTeam.goalDifference += (parseInt(match.homeScore) - parseInt(match.visitorScore));
+        visitorTeam.goalDifference += (parseInt(match.visitorScore) - parseInt(match.homeScore));
 
-        if (match.homeScore > match.visitorScore) {
+        if (parseInt(match.homeScore) > parseInt(match.visitorScore)) {
           homeTeam.wins++;
           visitorTeam.losses++;
           homeTeam.points += 3;
-        } else if (match.homeScore < match.visitorScore) {
+        } else if (parseInt(match.homeScore) < parseInt(match.visitorScore)) {
           visitorTeam.wins++;
           homeTeam.losses++;
           visitorTeam.points += 3;
@@ -170,8 +171,8 @@ async function saveAllMatches() {
       .filter(match => match.homeScore !== '' && match.visitorScore !== '')
       .map(match => ({
         id: match.id,
-        homeScore: match.homeScore,
-        visitorScore: match.visitorScore,
+        homeScore: parseInt(match.homeScore),
+        visitorScore: parseInt(match.visitorScore),
       }));
 
     if (matchUpdates.length > 0) {
@@ -196,14 +197,14 @@ function resetAllMatches() {
 }
 
 function generateRandomResult(match) {
-  match.homeScore = generateRandomScore();
-  match.visitorScore = generateRandomScore();
+  match.homeScore = generateRandomScore().toString();
+  match.visitorScore = generateRandomScore().toString();
 }
 
 function generateRandomResultsForAll() {
   matches.value.forEach(match => {
-    match.homeScore = generateRandomScore();
-    match.visitorScore = generateRandomScore();
+    match.homeScore = generateRandomScore().toString();
+    match.visitorScore = generateRandomScore().toString();
   });
 }
 
