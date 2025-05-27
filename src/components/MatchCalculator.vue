@@ -2,7 +2,7 @@
 <template>
   <h3>{{ title }}</h3>
   <h2>Gruppentabellen</h2>
-  <!-- Anzeige der Gruppen mit flexibler Anordnung -->
+
   <div v-if="groups.length" class="group-container">
     <div v-for="group in groups" :key="group.id" class="group">
       <h1>{{ group.name }}</h1>
@@ -20,7 +20,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="team in sortedTeams(group.teams)" :key="team.id" :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }">
+        <tr
+          v-for="team in sortedTeams(group.teams)"
+          :key="team.id"
+          :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }"
+        >
           <td>{{ team.team.name }}</td>
           <td>{{ team.matches }}</td>
           <td>{{ team.wins }}</td>
@@ -34,11 +38,13 @@
       </table>
     </div>
   </div>
+
   <br>
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
   <br>
+
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
     <button @click="saveAllMatches">Alle Ergebnisse speichern</button>
@@ -94,8 +100,8 @@ async function loadMatches() {
     const matchesResponse = await apiClient.get('/matches');
     matches.value = matchesResponse.data.map(match => ({
       ...match,
-      homeScore: null,
-      visitorScore: null
+      homeScore: '',
+      visitorScore: '',
     }));
   } catch (error) {
     console.error("Error fetching matches:", error);
@@ -112,7 +118,6 @@ async function loadGroups() {
 }
 
 function updateGroupStats() {
-  // Reset stats
   groups.value.forEach(group => {
     group.teams.forEach(team => {
       team.matches = 0;
@@ -125,9 +130,8 @@ function updateGroupStats() {
     });
   });
 
-  // Update stats only if scores are set (not null)
   matches.value.forEach(match => {
-    if (match.homeScore !== null && match.visitorScore !== null) {
+    if (match.homeScore !== '' && match.visitorScore !== '') {
       const homeTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.homeTeam.id);
       const visitorTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.visitorTeam.id);
 
@@ -162,18 +166,16 @@ function updateGroupStats() {
 
 async function saveAllMatches() {
   try {
-    // Filtere nur solche Spiele, bei denen sowohl homeScore als auch visitorScore nicht null sind
     const matchUpdates = matches.value
-      .filter(match => match.homeScore !== null && match.visitorScore !== null)
+      .filter(match => match.homeScore !== '' && match.visitorScore !== '')
       .map(match => ({
         id: match.id,
         homeScore: match.homeScore,
-        visitorScore: match.visitorScore
+        visitorScore: match.visitorScore,
       }));
 
     if (matchUpdates.length > 0) {
       await apiClient.put('/matches/batch', matchUpdates);
-      // Aktualisiere die Gruppen nach dem Speichern, um alle korrekten Daten widerzuspiegeln
       await loadGroups();
     } else {
       console.log("Keine gültigen Ergebnisse zum Speichern.");
@@ -183,10 +185,10 @@ async function saveAllMatches() {
   }
 }
 
-async function resetAllMatches() {
+function resetAllMatches() {
   matches.value.forEach(match => {
-    match.homeScore = null;
-    match.visitorScore = null;
+    match.homeScore = '';
+    match.visitorScore = '';
   });
 
   updateGroupStats();
@@ -206,7 +208,6 @@ function generateRandomResultsForAll() {
 }
 
 function generateRandomScore() {
-  // Definiere die Anzahl der Vorkommen jeder Zahl, basierend auf ihrer Wahrscheinlichkeit
   const weightedOptions = [
     ...Array(25).fill(0),
     ...Array(20).fill(1),
@@ -219,7 +220,6 @@ function generateRandomScore() {
     ...Array(1).fill(8),
     ...Array(1).fill(9)
   ];
-  // Ziehe einen Zufallswert aus dem gewichteten Array
   return weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
 }
 
@@ -228,7 +228,7 @@ function sortedTeams(teams) {
     b.points - a.points ||
     b.goalDifference - a.goalDifference ||
     b.goalScored - a.goalScored ||
-    (Math.random() - 0.5)  // Zufällige Entscheidung
+    Math.random() - 0.5
   );
 }
 
