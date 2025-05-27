@@ -85,7 +85,6 @@ onMounted(async () => {
   await loadGroups();
 });
 
-// Watch for changes in the matches to update the groups
 watch(matches, () => {
   updateGroupStats();
 });
@@ -163,16 +162,15 @@ function updateGroupStats() {
 
 async function saveAllMatches() {
   try {
-    // Filter nur solche Spiele, bei denen beide Scores nicht null sind
+    // Filtere nur solche Spiele, bei denen sowohl homeScore als auch visitorScore nicht null sind
     const matchUpdates = matches.value
       .filter(match => match.homeScore !== null && match.visitorScore !== null)
       .map(match => ({
         id: match.id,
         homeScore: match.homeScore,
-        visitorScore: match.visitorScore,
+        visitorScore: match.visitorScore
       }));
 
-    // Nur dann speichern, wenn es mindestens ein Spiel mit ausgewählten Ergebnissen gibt
     if (matchUpdates.length > 0) {
       await apiClient.put('/matches/batch', matchUpdates);
       // Aktualisiere die Gruppen nach dem Speichern, um alle korrekten Daten widerzuspiegeln
@@ -180,9 +178,8 @@ async function saveAllMatches() {
     } else {
       console.log("Keine gültigen Ergebnisse zum Speichern.");
     }
-
   } catch (error) {
-    console.error("Error saving matches:", error);
+    console.error("Fehler beim Speichern der Ergebnisse:", error);
   }
 }
 
@@ -194,24 +191,6 @@ async function resetAllMatches() {
 
   updateGroupStats();
   winnersHighlighted.value = false; // Reset winner highlighting
-
-  try {
-    // Bereite die zurückgesetzten Spiele für die Speicherung in der Datenbank auf
-    const resetMatches = matches.value.map(match => ({
-      id: match.id,
-      homeScore: match.homeScore,
-      visitorScore: match.visitorScore
-    }));
-
-    // Überschreibe die bestehenden Daten in der Datenbank mit den zurückgesetzten Spielen
-    await apiClient.put('/matches/batch', resetMatches);
-    console.log("Alle Ergebnisse wurden in der Datenbank zurückgesetzt.");
-
-    // Optional: Lade die Gruppen neu, um sicherzustellen, dass alles synchronisiert ist
-    await loadGroups();
-  } catch (error) {
-    console.error("Fehler beim Zurücksetzen der Ergebnisse in der Datenbank:", error);
-  }
 }
 
 function generateRandomResult(match) {
