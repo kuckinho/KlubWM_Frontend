@@ -3,8 +3,8 @@
   <h3>{{ title }}</h3>
   <h2>Gruppentabellen</h2>
 
-  <!-- Gruppencontainer nur anzeigen, wenn es Ergebniseingaben gibt -->
-  <div v-if="hasResults" class="group-container">
+  <!-- Gruppencontainer nur anzeigen, wenn es Ergebniseingaben gibt und gespeichert wurde -->
+  <div v-if="hasResults && resultsSaved" class="group-container">
     <div v-for="group in groups" :key="group.id" class="group">
       <h1>{{ group.name }}</h1>
       <table>
@@ -86,6 +86,7 @@ defineProps(['title']);
 const matches = ref([]);
 const groups = ref([]);
 const winnersHighlighted = ref(false);
+const resultsSaved = ref(false); // Neuer Zustand für das Speichern der Ergebnisse
 
 // Berechnetes Property für die Anzeige der Gruppentabellen
 const hasResults = computed(() => {
@@ -181,6 +182,9 @@ async function saveAllMatches() {
     if (matchUpdates.length > 0) {
       await apiClient.put('/matches/batch', matchUpdates);
       await loadGroups();
+
+      // Setze resultsSaved auf true, nachdem erfolgreich gespeichert wurde
+      resultsSaved.value = true;
     } else {
       console.log("Keine gültigen Ergebnisse zum Speichern.");
     }
@@ -197,6 +201,7 @@ function resetAllMatches() {
 
   updateGroupStats();
   winnersHighlighted.value = false;
+  resultsSaved.value = false; // Ergebnisse zurücksetzen, da alles zurückgesetzt wird
 }
 
 function generateRandomResult(match) {
