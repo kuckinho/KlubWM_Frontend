@@ -1,44 +1,6 @@
 
 <template>
   <h3>{{ title }}</h3>
-  <h2>Gruppentabellen</h2>
-
-  <div v-if="groups.length" class="group-container">
-    <div v-for="group in groups" :key="group.id" class="group">
-      <h1>{{ group.name }}</h1>
-      <table>
-        <thead>
-        <tr>
-          <th>Mannschaft</th>
-          <th>Spiele</th>
-          <th>S</th>
-          <th>U</th>
-          <th>N</th>
-          <th>TD</th>
-          <th>GT</th>
-          <th>Punkte</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr
-          v-for="team in sortedTeams(group.teams)"
-          :key="team.id"
-          :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }"
-        >
-          <td>{{ team.team.name }}</td>
-          <td>{{ team.matches }}</td>
-          <td>{{ team.wins }}</td>
-          <td>{{ team.draws }}</td>
-          <td>{{ team.losses }}</td>
-          <td>{{ team.goalDifference }}</td>
-          <td>{{ team.goalScored }}</td>
-          <td>{{ team.points }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
   <br>
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
@@ -74,6 +36,43 @@
       </div>
     </li>
   </ul>
+  <br>
+  <h2>Gruppentabellen</h2>
+  <div v-if="groups.length" class="group-container">
+    <div v-for="group in groups" :key="group.id" class="group">
+      <h1>{{ group.name }}</h1>
+      <table>
+        <thead>
+        <tr>
+          <th>Mannschaft</th>
+          <th>Spiele</th>
+          <th>S</th>
+          <th>U</th>
+          <th>N</th>
+          <th>TD</th>
+          <th>GT</th>
+          <th>Punkte</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          v-for="team in sortedTeams(group.teams)"
+          :key="team.id"
+          :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }"
+        >
+          <td>{{ team.team.name }}</td>
+          <td>{{ team.matches }}</td>
+          <td>{{ team.wins }}</td>
+          <td>{{ team.draws }}</td>
+          <td>{{ team.losses }}</td>
+          <td>{{ team.goalDifference }}</td>
+          <td>{{ team.goalScored }}</td>
+          <td>{{ team.points }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -167,13 +166,11 @@ function updateGroupStats() {
 
 async function saveAllMatches() {
   try {
-    const matchUpdates = matches.value
-      .filter(match => match.homeScore !== '' && match.visitorScore !== '')
-      .map(match => ({
-        id: match.id,
-        homeScore: parseInt(match.homeScore),
-        visitorScore: parseInt(match.visitorScore),
-      }));
+    const matchUpdates = matches.value.map(match => ({
+      id: match.id,
+      homeScore: match.homeScore === '' ? 0 : parseInt(match.homeScore),
+      visitorScore: match.visitorScore === '' ? 0 : parseInt(match.visitorScore),
+    }));
 
     if (matchUpdates.length > 0) {
       await apiClient.put('/matches/batch', matchUpdates);
