@@ -1,10 +1,9 @@
 
 <template>
   <h3>{{ title }}</h3>
-  <h2>Gruppentabellen</h2>
 
-  <!-- Gruppencontainer nur anzeigen, wenn es Ergebniseingaben gibt und gespeichert wurde -->
   <div v-if="hasResults && resultsSaved" class="group-container">
+    <h2>Gruppentabellen</h2>
     <div v-for="group in groups" :key="group.id" class="group">
       <h1>{{ group.name }}</h1>
       <table>
@@ -41,6 +40,7 @@
   </div>
 
   <br>
+
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
