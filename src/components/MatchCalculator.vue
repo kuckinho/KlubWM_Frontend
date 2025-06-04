@@ -1,6 +1,45 @@
 
 <template>
   <h3>{{ title }}</h3>
+  <h2>Gruppentabellen</h2>
+
+  <!-- Gruppencontainer nur anzeigen, wenn es Ergebniseingaben gibt -->
+  <div v-if="hasResults" class="group-container">
+    <div v-for="group in groups" :key="group.id" class="group">
+      <h1>{{ group.name }}</h1>
+      <table>
+        <thead>
+        <tr>
+          <th>Mannschaft</th>
+          <th>Spiele</th>
+          <th>S</th>
+          <th>U</th>
+          <th>N</th>
+          <th>TD</th>
+          <th>GT</th>
+          <th>Punkte</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          v-for="team in sortedTeams(group.teams)"
+          :key="team.id"
+          :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }"
+        >
+          <td>{{ team.team.name }}</td>
+          <td>{{ team.matches }}</td>
+          <td>{{ team.wins }}</td>
+          <td>{{ team.draws }}</td>
+          <td>{{ team.losses }}</td>
+          <td>{{ team.goalDifference }}</td>
+          <td>{{ team.goalScored }}</td>
+          <td>{{ team.points }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <br>
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
@@ -36,47 +75,10 @@
       </div>
     </li>
   </ul>
-  <br>
-  <h2>Gruppentabellen</h2>
-  <div v-if="groups.length" class="group-container">
-    <div v-for="group in groups" :key="group.id" class="group">
-      <h1>{{ group.name }}</h1>
-      <table>
-        <thead>
-        <tr>
-          <th>Mannschaft</th>
-          <th>Spiele</th>
-          <th>S</th>
-          <th>U</th>
-          <th>N</th>
-          <th>TD</th>
-          <th>GT</th>
-          <th>Punkte</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr
-          v-for="team in sortedTeams(group.teams)"
-          :key="team.id"
-          :class="{ 'winner-team': isGroupWinner(group, team), 'runner-up-team': isGroupRunnerUp(group, team) }"
-        >
-          <td>{{ team.team.name }}</td>
-          <td>{{ team.matches }}</td>
-          <td>{{ team.wins }}</td>
-          <td>{{ team.draws }}</td>
-          <td>{{ team.losses }}</td>
-          <td>{{ team.goalDifference }}</td>
-          <td>{{ team.goalScored }}</td>
-          <td>{{ team.points }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import apiClient from '../axios.js';
 
 defineProps(['title']);
@@ -84,6 +86,11 @@ defineProps(['title']);
 const matches = ref([]);
 const groups = ref([]);
 const winnersHighlighted = ref(false);
+
+// Berechnetes Property für die Anzeige der Gruppentabellen
+const hasResults = computed(() => {
+  return matches.value.some(match => match.homeScore !== '' || match.visitorScore !== '');
+});
 
 onMounted(async () => {
   await loadMatches();
@@ -130,7 +137,6 @@ function updateGroupStats() {
   });
 
   matches.value.forEach(match => {
-    // Verwende explizit `===` um sicherzustellen, dass es sich um einen leeren String handelt.
     if (match.homeScore !== '' && match.visitorScore !== '') {
       const homeTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.homeTeam.id);
       const visitorTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.visitorTeam.id);
@@ -190,7 +196,7 @@ function resetAllMatches() {
   });
 
   updateGroupStats();
-  winnersHighlighted.value = false; // Reset winner highlighting
+  winnersHighlighted.value = false;
 }
 
 function generateRandomResult(match) {
