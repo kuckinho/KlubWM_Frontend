@@ -63,12 +63,12 @@
       <div class="match-inputs">
         <select v-model="match.homeScore" class="score-input">
           <option :value="''" selected hidden></option>
-          <option v-for="n in 10" :key="n" :value="n-1">{{ n - 1 }}</option>
+          <option v-for="n in 10" :key="n" :value="n - 1">{{ n - 1 }}</option>
         </select>
         -
         <select v-model="match.visitorScore" class="score-input">
           <option :value="''" selected hidden></option>
-          <option v-for="n in 10" :key="n" :value="n-1">{{ n - 1 }}</option>
+          <option v-for="n in 10" :key="n" :value="n - 1">{{ n - 1 }}</option>
         </select>
       </div>
       <div class="match-buttons">
@@ -87,14 +87,14 @@ defineProps(['title']);
 const matches = ref([]);
 const groups = ref([]);
 const winnersHighlighted = ref(false);
-const resultsSaved = ref(false); // Neuer Zustand für das Speichern der Ergebnisse
-const resultsVisible = ref(false);  // Neues State für die Sichtbarkeit von Ergebnissen
+const resultsSaved = ref(false);
+const resultsVisible = ref(false);
 
-// Watcher für Kontrolle der Eingaben
+// Watcher für Kontrolle, ob Ergebnisse eingegeben und gespeichert wurden
 watch(matches, () => {
   resultsVisible.value = matches.value.some(
-    match => match.homeScore !== '' || match.visitorScore !== ''
-  );
+    match => match.homeScore !== '' && match.visitorScore !== ''
+  ) && resultsSaved.value;
   updateGroupStats();
 });
 
@@ -188,9 +188,11 @@ async function saveAllMatches() {
       await apiClient.put('/matches/batch', matchUpdates);
       await loadGroups();
 
-      // Ergebnisse sind nun gespeichert und sichtbar
       resultsSaved.value = true;
-      resultsVisible.value = true;
+      // Überprüfe erneut, ob Ergebnisse für die Sichtbarkeit vorhanden sind
+      resultsVisible.value = matches.value.some(
+        match => match.homeScore !== '' && match.visitorScore !== ''
+      );
     } else {
       console.log('Keine gültigen Ergebnisse zum Speichern.');
     }
@@ -208,7 +210,7 @@ function resetAllMatches() {
   updateGroupStats();
   winnersHighlighted.value = false;
   resultsSaved.value = false;
-  resultsVisible.value = false;  // Setze Sichtbarkeit auf falsch zurück
+  resultsVisible.value = false;
 }
 
 function generateRandomResult(match) {
@@ -284,7 +286,7 @@ button {
 
 button:hover {
   background-color: #003366;
-  color: #39FF14;
+  color: #39ff14;
   font-weight: bold;
 }
 
