@@ -85,6 +85,8 @@
 </template>
 
 <script setup>
+
+// Props für Titel
 defineProps(['title']);
 </script>
 

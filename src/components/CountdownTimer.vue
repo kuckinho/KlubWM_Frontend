@@ -86,7 +86,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 // Props für Titel
 defineProps(['title']);
 
-// Umstellung der Zeitzonen von UTC-4 auf MEZ (UTC+1)
+// Konvertiert gegebene Zeit in UTC-4 auf MEZ (UTC+1)
 function convertToMEZ(hour, day, month) {
   const date = new Date(Date.UTC(2025, month, day, hour));
   const offset = 4 + 1; // Von UTC-4 nach UTC+1
@@ -94,6 +94,7 @@ function convertToMEZ(hour, day, month) {
   return date;
 }
 
+// Definition der Spiele mit Umwandlung der Spielzeiten in MEZ
 const games = ref([
   { phase: 'Eröffnungsspiel', teams: ['Al Ahly', 'Inter Miami'], date: '15.6.', time: '02:00', dateTime: convertToMEZ(2, 15, 5), index: 0 },
   { phase: 'Endspiel', teams: ['Finalgegner', 'Finalgegner'], date: '13.7.', time: '21:00', dateTime: convertToMEZ(21, 13, 6), index: 1 },
@@ -146,25 +147,32 @@ const games = ref([
   { phase: 'Spieltag 3 von 3', teams: ['RB Salzburg', 'Real Madrid'], date: '27.6.', time: '03:00', dateTime: convertToMEZ(3, 27, 5), index: 48 },
 ]);
 
+// Findet das Eröffnungs- und Endspiel
 const openingGame = games.value.find(game => game.phase === 'Eröffnungsspiel');
 const finalGame = games.value.find(game => game.phase === 'Endspiel');
 
+// Reaktive Eigenschaft zur Speicherung des ausgewählten Teams
 const selectedTeam = ref('');
+
+// Berechnet die Liste der Teams aus allen Spielen ohne Duplikate
 const teams = computed(() =>
   Array.from(new Set(games.value.flatMap(game => game.teams)))
 );
 
+// Filtert die Spiele basierend auf dem ausgewählten Team
 const filteredGames = computed(() => {
   if (!selectedTeam.value) return [];
   return games.value.filter(game => game.teams.includes(selectedTeam.value));
 });
 
+// Berechnet, wie viele Sekunden, Minuten, Stunden und Tage bis zu einem Spiel verbleiben
 function calculateTimeLeft(targetDateTime) {
   const now = new Date().getTime();
   const difference = targetDateTime.getTime() - now;
   return Math.max(0, Math.floor(difference / 1000));
 }
 
+// Initialisiert die Countdown-Werte für jedes Spiel
 const countdowns = ref(games.value.map(() => ({
   days: 0,
   hours: 0,
@@ -172,6 +180,7 @@ const countdowns = ref(games.value.map(() => ({
   seconds: 0
 })));
 
+// Aktualisiert die Countdown-Zeiten für alle Spiele
 function updateCountdowns() {
   games.value.forEach((game, index) => {
     const totalSeconds = calculateTimeLeft(game.dateTime);
@@ -184,6 +193,7 @@ function updateCountdowns() {
 
 let interval = null;
 
+// Bei Mount des Elements wird der Countdown initialisiert und regelmäßig aktualisiert
 onMounted(() => {
   updateCountdowns();  // Initiale Berechnung
   interval = setInterval(() => {
@@ -191,9 +201,11 @@ onMounted(() => {
   }, 1000);
 });
 
+// Bei Unmount des Elements wird der Aktualisierungsintervall für den Countdown gestoppt
 onUnmounted(() => {
   clearInterval(interval);
 });
+
 </script>
 
 <style scoped>

@@ -90,7 +90,7 @@ const winnersHighlighted = ref(false);
 const resultsSaved = ref(false);
 const resultsVisible = ref(false);
 
-// Watcher für Kontrolle, ob Ergebnisse eingegeben und gespeichert wurden
+// Überwacht die Eingänge der Spiele und aktualisiert die Sichtbarkeit der Gruppentabellen
 watch(matches, () => {
   resultsVisible.value = matches.value.some(
     match => match.homeScore !== '' && match.visitorScore !== ''
@@ -98,11 +98,13 @@ watch(matches, () => {
   updateGroupStats();
 });
 
+// Lädt die Daten von Spielen und Gruppen, wenn die Komponente gemountet wird
 onMounted(async () => {
   await loadMatches();
   await loadGroups();
 });
 
+// Lädt die Spiele vom Server, initialisiert die Scores als leere Strings
 async function loadMatches() {
   try {
     const matchesResponse = await apiClient.get('/matches');
@@ -116,6 +118,7 @@ async function loadMatches() {
   }
 }
 
+// Lädt die Gruppeninformationen vom Server
 async function loadGroups() {
   try {
     const groupsResponse = await apiClient.get('/groups');
@@ -125,6 +128,7 @@ async function loadGroups() {
   }
 }
 
+// Aktualisiert die Statistiken für jede Gruppe basierend auf den Ergebnissen
 function updateGroupStats() {
   groups.value.forEach(group => {
     group.teams.forEach(team => {
@@ -176,6 +180,7 @@ function updateGroupStats() {
   });
 }
 
+// Speichert alle Spielergebnisse in der Datenbank und aktualisiert die Gruppeninformationen
 async function saveAllMatches() {
   try {
     const matchUpdates = matches.value.map(match => ({
@@ -189,7 +194,8 @@ async function saveAllMatches() {
       await loadGroups();
 
       resultsSaved.value = true;
-      // Überprüfe erneut, ob Ergebnisse für die Sichtbarkeit vorhanden sind
+
+      // Überprüft, ob mindestens ein Spiel ein Ergebnis hat, um Tabellen anzuzeigen
       resultsVisible.value = matches.value.some(
         match => match.homeScore !== '' && match.visitorScore !== ''
       );
@@ -201,6 +207,7 @@ async function saveAllMatches() {
   }
 }
 
+// Setzt alle Spielstände zurück zu leeren Eingaben und macht die Gruppentabellen unsichtbar
 function resetAllMatches() {
   matches.value.forEach(match => {
     match.homeScore = '';
@@ -213,11 +220,13 @@ function resetAllMatches() {
   resultsVisible.value = false;
 }
 
+// Generiert ein zufälliges Ergebnis für ein bestimmtes Spiel
 function generateRandomResult(match) {
   match.homeScore = generateRandomScore().toString();
   match.visitorScore = generateRandomScore().toString();
 }
 
+// Generiert zufällig Ergebnisse für alle Spiele
 function generateRandomResultsForAll() {
   matches.value.forEach(match => {
     match.homeScore = generateRandomScore().toString();
@@ -225,6 +234,7 @@ function generateRandomResultsForAll() {
   });
 }
 
+// Erzeugt einen zufälligen Score basierend auf gewichteten Wahrscheinlichkeiten
 function generateRandomScore() {
   const weightedOptions = [
     ...Array(25).fill(0),
@@ -241,6 +251,7 @@ function generateRandomScore() {
   return weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
 }
 
+// Sortiert Teams innerhalb einer Gruppe basierend auf Punkten und anderen Kriterien
 function sortedTeams(teams) {
   return [...teams].sort(
     (a, b) =>
@@ -251,18 +262,21 @@ function sortedTeams(teams) {
   );
 }
 
+// Bestimmt den Sieger einer Gruppe
 function isGroupWinner(group, team) {
   if (!winnersHighlighted.value) return false;
   const sorted = sortedTeams(group.teams);
   return sorted.length > 0 && sorted[0].id === team.id;
 }
 
+// Bestimmt den Zweitplatzierten einer Gruppe
 function isGroupRunnerUp(group, team) {
   if (!winnersHighlighted.value) return false;
   const sorted = sortedTeams(group.teams);
   return sorted.length > 1 && sorted[1].id === team.id;
 }
 
+// Hebt die Siegerteams der Gruppen hervor
 function highlightWinners() {
   winnersHighlighted.value = true;
 }

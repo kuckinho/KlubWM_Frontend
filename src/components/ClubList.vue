@@ -118,6 +118,7 @@ function getUniqueValues(column) {
   const values = clubs.value.map(club => club[column]);
   return [...new Set(values)];
 }
+
 </script>
 
 

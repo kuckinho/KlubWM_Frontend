@@ -115,6 +115,7 @@
 </template>
 
 <script setup>
+
 // Props für Titel
 defineProps(['title']);
 
@@ -122,6 +123,7 @@ defineProps(['title']);
 function openPDF(url) {
   window.open(url, '_blank');
 }
+
 </script>
 
 <style scoped>
