@@ -1,7 +1,7 @@
 <template>
   <h3>{{ title }}</h3>
 
-  <div v-if="hasResults && resultsSaved">
+  <div v-if="resultsVisible">
     <h2>Gruppentabellen</h2>
 
     <div class="group-container">
@@ -41,11 +41,11 @@
     </div>
   </div>
 
-  <br>
+  <br />
   <h2>Ergebnisrechner</h2>
   <p>Hier kannst du deine Ergebnisse eingeben und schauen, ob es dein Team schafft!</p>
   <p>Keine Sorge, du kannst nichts falsch machen - negative Eingaben sind nicht möglich.</p>
-  <br>
+  <br />
 
   <div class="buttons">
     <button @click="generateRandomResultsForAll">Alle Ergebnisse generieren</button>
@@ -53,7 +53,7 @@
     <button @click="resetAllMatches">Alle Ergebnisse zurücksetzen</button>
     <button @click="highlightWinners">Alle Sieger küren</button>
   </div>
-  <br>
+  <br />
 
   <ul>
     <li v-for="match in matches" :key="match.id" class="match-item">
@@ -63,12 +63,12 @@
       <div class="match-inputs">
         <select v-model="match.homeScore" class="score-input">
           <option :value="''" selected hidden></option>
-          <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
+          <option v-for="n in 10" :key="n" :value="n-1">{{ n - 1 }}</option>
         </select>
         -
         <select v-model="match.visitorScore" class="score-input">
           <option :value="''" selected hidden></option>
-          <option v-for="n in 10" :key="n" :value="n-1">{{ n-1 }}</option>
+          <option v-for="n in 10" :key="n" :value="n-1">{{ n - 1 }}</option>
         </select>
       </div>
       <div class="match-buttons">
@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import apiClient from '../axios.js';
 
 defineProps(['title']);
@@ -88,19 +88,19 @@ const matches = ref([]);
 const groups = ref([]);
 const winnersHighlighted = ref(false);
 const resultsSaved = ref(false); // Neuer Zustand für das Speichern der Ergebnisse
+const resultsVisible = ref(false);  // Neues State für die Sichtbarkeit von Ergebnissen
 
-// Berechnetes Property für die Anzeige der Gruppentabellen
-const hasResults = computed(() => {
-  return matches.value.some(match => match.homeScore !== '' || match.visitorScore !== '');
+// Watcher für Kontrolle der Eingaben
+watch(matches, () => {
+  resultsVisible.value = matches.value.some(
+    match => match.homeScore !== '' || match.visitorScore !== ''
+  );
+  updateGroupStats();
 });
 
 onMounted(async () => {
   await loadMatches();
   await loadGroups();
-});
-
-watch(matches, () => {
-  updateGroupStats();
 });
 
 async function loadMatches() {
@@ -112,7 +112,7 @@ async function loadMatches() {
       visitorScore: match.visitorScore !== undefined ? match.visitorScore.toString() : '',
     }));
   } catch (error) {
-    console.error("Error fetching matches:", error);
+    console.error('Error fetching matches:', error);
   }
 }
 
@@ -121,7 +121,7 @@ async function loadGroups() {
     const groupsResponse = await apiClient.get('/groups');
     groups.value = groupsResponse.data;
   } catch (error) {
-    console.error("Error fetching groups:", error);
+    console.error('Error fetching groups:', error);
   }
 }
 
@@ -140,8 +140,12 @@ function updateGroupStats() {
 
   matches.value.forEach(match => {
     if (match.homeScore !== '' && match.visitorScore !== '') {
-      const homeTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.homeTeam.id);
-      const visitorTeam = groups.value.flatMap(g => g.teams).find(t => t.team.id === match.visitorTeam.id);
+      const homeTeam = groups.value
+        .flatMap(g => g.teams)
+        .find(t => t.team.id === match.homeTeam.id);
+      const visitorTeam = groups.value
+        .flatMap(g => g.teams)
+        .find(t => t.team.id === match.visitorTeam.id);
 
       if (homeTeam && visitorTeam) {
         homeTeam.matches++;
@@ -150,8 +154,8 @@ function updateGroupStats() {
         homeTeam.goalScored += parseInt(match.homeScore);
         visitorTeam.goalScored += parseInt(match.visitorScore);
 
-        homeTeam.goalDifference += (parseInt(match.homeScore) - parseInt(match.visitorScore));
-        visitorTeam.goalDifference += (parseInt(match.visitorScore) - parseInt(match.homeScore));
+        homeTeam.goalDifference += parseInt(match.homeScore) - parseInt(match.visitorScore);
+        visitorTeam.goalDifference += parseInt(match.visitorScore) - parseInt(match.homeScore);
 
         if (parseInt(match.homeScore) > parseInt(match.visitorScore)) {
           homeTeam.wins++;
@@ -184,13 +188,14 @@ async function saveAllMatches() {
       await apiClient.put('/matches/batch', matchUpdates);
       await loadGroups();
 
-      // Setze resultsSaved auf true, nachdem erfolgreich gespeichert wurde
+      // Ergebnisse sind nun gespeichert und sichtbar
       resultsSaved.value = true;
+      resultsVisible.value = true;
     } else {
-      console.log("Keine gültigen Ergebnisse zum Speichern.");
+      console.log('Keine gültigen Ergebnisse zum Speichern.');
     }
   } catch (error) {
-    console.error("Fehler beim Speichern der Ergebnisse:", error);
+    console.error('Fehler beim Speichern der Ergebnisse:', error);
   }
 }
 
@@ -202,7 +207,8 @@ function resetAllMatches() {
 
   updateGroupStats();
   winnersHighlighted.value = false;
-  resultsSaved.value = false; // Ergebnisse zurücksetzen, da alles zurückgesetzt wird
+  resultsSaved.value = false;
+  resultsVisible.value = false;  // Setze Sichtbarkeit auf falsch zurück
 }
 
 function generateRandomResult(match) {
@@ -228,17 +234,18 @@ function generateRandomScore() {
     ...Array(2).fill(6),
     ...Array(2).fill(7),
     ...Array(1).fill(8),
-    ...Array(1).fill(9)
+    ...Array(1).fill(9),
   ];
   return weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
 }
 
 function sortedTeams(teams) {
-  return [...teams].sort((a, b) =>
-    b.points - a.points ||
-    b.goalDifference - a.goalDifference ||
-    b.goalScored - a.goalScored ||
-    Math.random() - 0.5
+  return [...teams].sort(
+    (a, b) =>
+      b.points - a.points ||
+      b.goalDifference - a.goalDifference ||
+      b.goalScored - a.goalScored ||
+      Math.random() - 0.5
   );
 }
 
@@ -339,7 +346,8 @@ table {
   margin-top: 10px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ccffcc;
   padding: 8px;
   white-space: nowrap;
@@ -351,7 +359,8 @@ th {
   font-weight: bold;
 }
 
-th, td:nth-child(n+2) {
+th,
+td:nth-child(n + 2) {
   width: 70px;
 }
 
@@ -360,7 +369,7 @@ th, td:nth-child(n+2) {
 }
 
 .runner-up-team {
-  color: #B8860B;
+  color: #b8860b;
 }
 
 h2 {
@@ -371,6 +380,6 @@ h2 {
 h1 {
   margin-top: 5px;
   margin-bottom: 5px;
-  color: #32CD32;
+  color: #32cd32;
 }
 </style>
