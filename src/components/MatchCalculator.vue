@@ -108,8 +108,8 @@ async function loadMatches() {
     const matchesResponse = await apiClient.get('/matches');
     matches.value = matchesResponse.data.map(match => ({
       ...match,
-      homeScore: '',
-      visitorScore: '',
+      homeScore: match.homeScore !== undefined ? match.homeScore.toString() : '',
+      visitorScore: match.visitorScore !== undefined ? match.visitorScore.toString() : '',
     }));
   } catch (error) {
     console.error("Error fetching matches:", error);
